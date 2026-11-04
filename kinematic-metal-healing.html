@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Architected Healing Metals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Source+Serif+4:ital,wght@1,400;1,600&display=swap">
+<style>
+/* The Wrong Ship. A fixed 1600 x 900 stage scaled to the window; full-bleed photos with text on a fixed
+   layer above them; one accent (warning amber). One look, built for a dark room and a projector. */
+:root{
+  --ink:#F3F1EC; --ink-dim:#A9B9D0; --field:#001433; --steel:#0B2652; --rule:rgba(243,241,236,.16);
+  --amber:#68ACE5; --red:#CF4520;
+  --display:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  --body:Tahoma,Verdana,'Segoe UI',sans-serif;
+  --quote:'Source Serif 4',Georgia,serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--ink);overflow:hidden;font-family:var(--body)}
+.viewport{position:fixed;inset:0;background:#000;overflow:hidden}
+.stage{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:0 0;overflow:hidden;background:var(--field)}
+.stage::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 2px #000;pointer-events:none;z-index:50}  /* safety edge: hides any sub-pixel bleed at the border */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.1s ease,visibility 0s linear 1.1s;background:var(--field)}
+.slide.active{opacity:1;visibility:visible;transition:opacity 1.1s ease}
+
+/* photo layer: slow directed moves, text never sits on it */
+.bg{position:absolute;inset:-2%;background-size:cover;background-position:center;filter:grayscale(.15) contrast(1.05);transform-origin:var(--kbo,50% 50%)}
+.bg.nophoto{background:radial-gradient(120% 90% at 80% 15%,#0E3170 0%,var(--field) 62%)}
+.slide.active .bg.kb{animation:kb var(--kbdur,24s) cubic-bezier(.25,.1,.25,1) forwards}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(var(--kbz,1.08)) translate(var(--kbx,-1.2%),var(--kby,-0.8%))}}
+body.still .slide.active .bg.kb{animation:none}
+@media (prefers-reduced-motion:reduce){.slide.active .bg.kb{animation:none}}
+.scrim{position:absolute;inset:-4px}  /* overhangs the frame: at fractional screen scales the edge pixel is otherwise only part-covered, and the brighter photo (inset -2%) flickers through as it pans */
+.scrim.left{background:linear-gradient(90deg,rgba(0,20,51,.94) 0%,rgba(0,20,51,.78) 36%,rgba(0,20,51,.2) 64%,rgba(0,20,51,0) 82%)}
+.scrim.bottom{background:linear-gradient(0deg,rgba(0,20,51,.95) 0%,rgba(0,20,51,.62) 40%,rgba(0,20,51,0) 72%)}
+.scrim.full{background:linear-gradient(90deg,rgba(0,20,51,.9) 0%,rgba(0,20,51,.6) 55%,rgba(0,20,51,.35) 100%)}
+
+/* builds */
+[data-step]:not(.strk){opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s ease}
+[data-step].on:not(.strk){opacity:1;transform:none}
+.fade[data-delay]{opacity:0;transition:opacity 1s ease}
+.fade[data-delay].on{opacity:1}
+/* Strike-through drawn ON TOP of the words: the text itself is painted as a clipped background layer (second
+   layer, clip text), and the red line is the first layer, which paints above it. Clone keeps it per line. */
+.strk{background-image:linear-gradient(var(--red),var(--red)),linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:0 56%,0 0;background-size:0% 7px,100% 100%;-webkit-background-clip:border-box,text;background-clip:border-box,text;-webkit-text-fill-color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .8s cubic-bezier(.6,0,.2,1),color .7s ease .5s}
+.strk.on{background-size:100% 7px,100% 100%;color:rgba(243,241,236,.5)}
+
+/* type */
+.kicker{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.h-xl{font-family:var(--display);font-weight:800;font-size:116px;line-height:.92;text-transform:uppercase;text-wrap:balance}
+.h-l{font-family:var(--display);font-weight:700;font-size:64px;line-height:1;text-transform:uppercase;text-wrap:balance}
+.h-m{font-family:var(--display);font-weight:700;font-size:52px;line-height:1;text-transform:uppercase;color:var(--amber)}
+.lede{font-size:28px;line-height:1.4;color:var(--ink);max-width:700px}
+.fact{font-size:26px;line-height:1.42;color:var(--ink-dim);max-width:860px}
+.fact b{color:var(--ink);font-weight:600}
+.fact.small{font-size:19px}
+.line{font-family:var(--quote);font-style:italic;font-size:33px;line-height:1.35;color:var(--ink);border-left:5px solid var(--amber);padding-left:24px;max-width:720px}
+.credit{position:absolute;right:28px;bottom:16px;font-size:14px;color:rgba(243,241,236,.55);z-index:5;max-width:900px;text-align:right}
+.credit a{color:inherit}
+.sand{font-size:15px;color:var(--ink-dim);letter-spacing:.04em;margin-top:18px}
+
+/* panels */
+.panel{position:absolute;display:flex;flex-direction:column;gap:22px;z-index:2}
+.panel.p-left{left:96px;top:0;bottom:0;width:760px;justify-content:center}
+.panel.p-left.wide{width:1100px}
+.panel.p-bottom{left:96px;right:96px;bottom:90px;width:980px}
+.stats{display:flex;gap:46px;margin-top:4px}
+.stat .n{font-family:var(--display);font-weight:800;font-size:76px;line-height:.9}
+.stat .l{font-size:19px;color:var(--ink-dim);margin-top:6px;max-width:200px;line-height:1.3}
+
+/* title */
+.tpanel{position:absolute;left:96px;bottom:110px;display:flex;flex-direction:column;gap:18px;z-index:2}
+.tpanel .h-xl{font-size:170px}
+.tsub{font-size:30px;color:var(--ink)}
+
+/* cold open */
+.open1 .q{position:absolute;left:96px;top:300px;width:760px;transition:opacity .6s ease;z-index:2}
+.open1 .q .h-xl{margin-top:14px}
+.open1 .reveal{position:absolute;left:96px;top:236px;width:760px;display:flex;flex-direction:column;gap:22px;z-index:2}
+.open1 .tag{display:flex;flex-wrap:wrap;gap:24px;align-items:baseline;font-family:var(--display);font-weight:700;font-size:50px;letter-spacing:.06em;text-transform:uppercase}
+.open1 .tag .x{color:var(--ink)}
+.open1 .tag .y{color:var(--amber)}
+
+/* section cards */
+.sec .secwrap{position:absolute;left:96px;right:96px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px}
+.secnum{font-family:var(--display);font-weight:800;font-size:200px;line-height:.8;color:var(--amber)}
+.sectitle{font-family:var(--display);font-weight:800;font-size:100px;line-height:.95;text-transform:uppercase;text-wrap:balance}
+.secsub{font-size:30px;color:var(--ink-dim);max-width:1100px;line-height:1.35}
+
+/* roadmap */
+.rmwrap{position:absolute;left:96px;top:150px;display:flex;flex-direction:column;gap:34px}
+.rm{display:flex;flex-direction:column;gap:18px}
+.rmi{font-family:var(--display);font-weight:700;font-size:56px;text-transform:uppercase;color:var(--ink-dim);display:flex;gap:28px;align-items:baseline}
+.rmi.big{color:var(--ink);font-size:72px}
+.rmn{color:var(--amber);min-width:44px}
+
+/* leaderboard */
+.board{background:radial-gradient(120% 90% at 85% 10%,#0E3170 0%,var(--field) 60%)}
+.bwrap{position:absolute;inset:64px 96px 60px;display:flex;flex-direction:column;gap:26px}
+.rows{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:230px 470px 1fr;align-items:baseline;gap:36px;padding:22px 0;border-bottom:1px solid var(--rule)}
+.cat{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.val{font-family:var(--display);font-weight:800;font-size:80px;line-height:.9;font-variant-numeric:tabular-nums;white-space:nowrap}
+.val small{font-size:36px;font-weight:700;color:var(--ink-dim);margin-left:8px}
+.who{font-size:22px;line-height:1.35;color:var(--ink-dim)}
+.who b{color:var(--ink);font-weight:600}
+.flag{color:var(--amber);font-weight:600}
+
+/* myths */
+.myth .record{display:flex;flex-direction:column;gap:12px;border-left:5px solid var(--amber);padding-left:24px}
+.mwrap{position:absolute;inset:80px 96px 70px;display:flex;flex-direction:column;gap:30px}
+.mrows{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.mrow{display:grid;grid-template-columns:640px 1fr;gap:48px;padding:26px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.mm{font-family:var(--display);font-weight:700;font-size:38px;line-height:1.12;text-transform:uppercase}
+.mr{font-size:24px;line-height:1.4;color:var(--ink)}
+
+/* countdown cards */
+.count{background:radial-gradient(100% 100% at 20% 50%,#1A1F27 0%,var(--field) 70%)}
+.cwrap{position:absolute;left:96px;right:96px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:420px 1fr;gap:56px;align-items:center}
+.cnum{font-family:var(--display);font-weight:800;font-size:440px;line-height:.78;color:var(--amber);text-align:right;letter-spacing:-.02em}
+.cbody{display:flex;flex-direction:column;gap:20px}
+.cgroup{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+.ctitle{font-family:var(--display);font-weight:800;font-size:84px;line-height:.95;text-transform:uppercase;text-wrap:balance}
+.cgloss{font-size:28px;line-height:1.4;color:var(--ink-dim);max-width:820px}
+.cbar{height:12px;background:rgba(243,241,236,.1);max-width:760px;margin-top:10px}
+.cfill{height:100%;width:0;background:var(--amber);transition:width 1.6s cubic-bezier(.2,.7,.2,1) .4s}
+.slide.active .cfill{width:var(--w)}
+.ccount{font-size:22px;color:var(--ink-dim)}
+.ccount .cnt{color:var(--ink);font-weight:600}
+
+/* plain and diagram slides */
+.plain .panel.p-left{width:1150px}
+.diagram .hy{position:absolute;right:80px;top:120px;width:640px;z-index:2}
+.hy svg{width:100%;height:auto}
+.hy .ceil{stroke:var(--ink-dim);stroke-width:6}
+.hy .beam{fill:#2A313B;stroke:var(--ink-dim);stroke-width:2}
+.hy .rod{stroke:var(--ink);stroke-width:6}
+.hy .nut{fill:var(--ink-dim)}
+.hy .nut.hot{fill:var(--red)}
+.hy text{font-family:var(--body);fill:var(--ink-dim);text-anchor:middle}
+.hy .dl{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.14em;fill:var(--amber)}
+.hy .bl2{font-size:16px}
+.hy .ld{font-family:var(--display);font-weight:800;font-size:34px;fill:var(--ink);text-anchor:start}
+.hy .ld.hotl{fill:var(--red)}
+.hy .cap{font-size:17px;fill:var(--ink)}
+
+/* montage */
+.mtwrap{position:absolute;inset:80px 96px 70px;display:flex;flex-direction:column;gap:30px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.tile{display:flex;flex-direction:column;gap:12px}
+.timg{aspect-ratio:4/3;background-size:cover;background-position:center;filter:grayscale(.2)}
+.timg.none{background:var(--steel)}
+.ttl{font-family:var(--display);font-weight:700;font-size:32px;text-transform:uppercase;color:var(--amber)}
+.tds{font-size:21px;line-height:1.38;color:var(--ink)}
+.also{font-size:22px;color:var(--ink-dim);border-top:1px solid var(--rule);padding-top:18px}
+
+/* matrix */
+.mxwrap{position:absolute;inset:56px 70px 48px;display:flex;flex-direction:column;gap:18px}
+.mx{display:grid;grid-template-columns:430px repeat(var(--cols),1fr);align-items:center;row-gap:6px}
+.mx-h{height:96px}
+.mx-c{font-size:15px;color:var(--ink-dim);writing-mode:vertical-rl;transform:rotate(180deg);height:96px;text-align:left;justify-self:center}
+.mx-r{font-family:var(--display);font-weight:700;font-size:23px;text-transform:uppercase;line-height:1.1;display:flex;gap:12px;align-items:baseline;padding-right:14px;opacity:0;transition:opacity .5s ease calc(var(--i)*.55s)}
+.mx-n{color:var(--amber);min-width:26px}
+.mx-d{display:flex;justify-content:center;height:52px;align-items:center;border-top:1px solid rgba(243,241,236,.07)}
+.mx-d span{width:20px;height:20px;border-radius:50%;opacity:0;transform:scale(.3);transition:opacity .35s ease calc(var(--i)*.55s + var(--j)*.03s),transform .35s ease calc(var(--i)*.55s + var(--j)*.03s)}
+.mx-d span.p{background:var(--amber)}
+.mx-d span.s{border:3px solid var(--amber)}
+.slide.active .mx-r{opacity:1}
+.slide.active .mx-d span.p,.slide.active .mx-d span.s{opacity:1;transform:none}
+.mx-key{font-size:18px;color:var(--ink-dim);display:flex;gap:12px;align-items:center}
+.mx-key span{display:inline-block;width:16px;height:16px;border-radius:50%;margin-left:14px}
+.mx-key span.p{background:var(--amber)}
+.mx-key span.s{border:3px solid var(--amber)}
+
+/* questions */
+.qwrap{position:absolute;inset:80px 96px 70px;display:flex;flex-direction:column;gap:34px}
+.qs{display:grid;grid-template-columns:1fr 1fr;gap:20px 64px}
+.qq{font-size:30px;line-height:1.3;display:flex;gap:20px;align-items:baseline;border-top:1px solid var(--rule);padding-top:16px}
+.qn{font-family:var(--display);font-weight:800;font-size:44px;color:var(--amber);min-width:48px}
+
+/* chrome */
+.hud{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:8px 16px;font:13px var(--body);color:#5f656c;pointer-events:none;z-index:10}
+.hud kbd{font-family:var(--body);border:1px solid #3a4048;border-radius:3px;padding:0 5px;color:#9aa1a9}
+body.clean .hud{display:none}
+.notes{position:fixed;left:0;right:0;bottom:30px;max-height:30vh;overflow:auto;background:rgba(0,20,51,.94);border-top:2px solid var(--amber);padding:12px 20px;font:16px/1.5 var(--body);color:#d8d6d0;display:none;z-index:9}
+body.shownotes .notes{display:block}
+
+/* ── revisions, 21 Oct 2026 ── */
+/* opener: the two ships side by side, to scale in length */
+.ships{background:radial-gradient(110% 90% at 50% 30%,#18202A 0%,var(--field) 70%)}
+.shipwrap{position:absolute;inset:80px 100px 60px;display:flex;flex-direction:column;gap:22px}
+.cmp.big{background:none;border:0;padding:20px 0 0}
+.cmp.big svg{width:1400px}
+.shipwrap .same{font-size:32px;line-height:1.35;color:var(--ink);border-left:5px solid var(--amber);padding-left:24px}
+.cmp{display:flex;flex-direction:column;gap:6px;background:rgba(0,20,51,.55);border-left:5px solid var(--amber);padding:14px 20px 12px}
+.cmp svg{width:700px;height:auto;display:block}
+.cmp .hull{fill:#3A424D;stroke:var(--ink-dim);stroke-width:1.5}
+.cmp .t2 .hull{fill:#1E4F86;stroke:var(--amber)}
+.cmp .sup{fill:#4A535F;stroke:var(--ink-dim);stroke-width:1.2}
+.cmp .t2 .sup{fill:#2B5F99;stroke:var(--amber)}
+.cmp .mast{stroke:var(--ink-dim);stroke-width:2.5}
+.cmp text{font-family:var(--body);font-size:19px;fill:var(--ink)}
+.cmp text b,.cmp .nm{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.06em;text-transform:uppercase}
+.cmp .t2 .nm{fill:var(--amber)}
+.cmp .same{font-size:22px;color:var(--ink)}
+/* Tacoma: text in the left third, clear of the car */
+.panel.p-third{left:80px;top:0;bottom:0;width:540px;justify-content:center}
+.panel.p-third .h-l{font-size:60px}
+/* four myths: list on the left, picture and record on the right */
+.m2{position:absolute;inset:70px 80px 60px;display:grid;grid-template-columns:600px 1fr;grid-template-rows:auto repeat(4,1fr);column-gap:56px}
+.m2 .kicker,.m2 .h-l{grid-column:1;grid-row:1;margin-bottom:10px}
+.m2row{grid-column:1;border-top:1px solid var(--rule);padding:14px 0;opacity:.32;transition:opacity .6s ease;align-self:stretch;display:flex;align-items:center}
+.m2row:has(.mk.on){opacity:1}
+.m2row:has(.mk.on):has(~ .m2row .mk.on){opacity:.55}
+.m2row .mm{font-size:36px}
+.m2 .r1{grid-row:2}.m2 .r2{grid-row:3}.m2 .r3{grid-row:4}.m2 .r4{grid-row:5}
+.mk{display:block;width:0;height:0}
+.pic{grid-column:2;grid-row:1/6;display:flex;flex-direction:column;gap:16px;opacity:0;transition:opacity .7s ease;pointer-events:none}
+.m2:has(.r1 .mk.on):not(:has(.r2 .mk.on)) .p1,.m2:has(.r2 .mk.on):not(:has(.r3 .mk.on)) .p2,
+.m2:has(.r3 .mk.on):not(:has(.r4 .mk.on)) .p3,.m2:has(.r4 .mk.on) .p4{opacity:1;pointer-events:auto}
+.pimg{position:relative;height:430px;background-size:cover;background-position:center;border-radius:4px;overflow:hidden}
+.pimg .pf{position:absolute;left:0;right:0;bottom:0;padding:60px 22px 16px;background:linear-gradient(0deg,rgba(0,20,51,.92) 0%,rgba(0,20,51,.6) 60%,rgba(0,20,51,0) 100%)}
+.pf .k{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.pf p{font-size:22px;line-height:1.35;color:var(--ink);margin-top:6px}
+.pcr{font-size:13px;color:rgba(243,241,236,.55);margin-top:-8px}
+.pcr a{color:inherit}
+.prec{border-left:5px solid var(--amber);padding-left:20px}
+.prec .h{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.prec p{font-size:24px;line-height:1.4;color:var(--ink);margin-top:4px}
+/* data set: timeline that regroups into a knowledge graph */
+.kgslide{background:radial-gradient(110% 90% at 50% 40%,#151B23 0%,var(--field) 70%)}
+.kgwrap{position:absolute;inset:0}
+.kgt{position:absolute;left:80px;top:56px;z-index:2}
+.kgt .h-l{font-size:58px;position:absolute;top:40px;left:0;white-space:nowrap;transition:opacity .8s ease}
+.kgt .t2,.kgt .t3{opacity:0}
+.kgwrap:has(.edges.on) .t1{opacity:0}
+.kgwrap:has(.edges.on) .t2{opacity:1}
+.kgwrap:has(.tl20.on) .t2{opacity:0}
+.kgwrap:has(.tl20.on) .t3{opacity:1}
+.kgkey{position:absolute;right:80px;top:66px;font-size:19px;color:var(--ink-dim);display:flex;gap:10px;align-items:center;z-index:2}
+.kgkey span{width:14px;height:14px;border-radius:50%;display:inline-block;margin-left:12px}
+.kg{position:absolute;inset:0;width:100%;height:100%}
+.kg .part{fill:var(--amber);stroke:var(--amber)}
+.kg .ana{fill:#A45C98;stroke:#A45C98}
+.kg .ppl{fill:var(--red);stroke:var(--red)}
+.kgkey .part{background:var(--amber)}.kgkey .ana{background:#A45C98}.kgkey .ppl{background:var(--red)}
+.kg .axis line{stroke:var(--ink-dim);stroke-width:2}
+.kg .axis text{fill:var(--ink-dim);font-family:var(--body);font-size:18px;text-anchor:middle}
+.kg .axis .brk{font-size:15px;font-style:italic}
+.kg .axis,.kg .lm{transition:opacity .8s ease}
+.kg .lm text{fill:var(--ink);font-family:var(--body);font-size:18px;font-weight:600;text-anchor:middle;paint-order:stroke;stroke:var(--field);stroke-width:5px}
+.kgwrap:has(.edges.on) .axis,.kgwrap:has(.edges.on) .lm{opacity:0}
+.kg circle.c{stroke:none;transform:translate(var(--x1),var(--y1));transition:transform 1.5s cubic-bezier(.55,0,.2,1) calc(var(--d) * 1ms),opacity .6s ease}
+.kgwrap:has(.edges.on) circle.c{transform:translate(var(--x2),var(--y2))}
+.kgwrap:has(.tl20.on) circle.c:not(.talk){opacity:.22}
+.kgwrap:has(.tl20.on) circle.c.talk{stroke:#fff;stroke-width:2}
+.kg .edges{transform:none!important}
+.kg .edges line{stroke-width:1;fill:none}
+.kg .edges .ep{stroke-opacity:.5;stroke-width:1.6}
+.kg .edges .es{stroke:var(--ink-dim);stroke-opacity:.16}
+.kg .edges{transition:opacity 1s ease 1.6s!important}
+.kgwrap:has(.tl20.on) .edges{opacity:.35!important;transition-delay:0s!important}
+.kg .hubs{opacity:0;transition:opacity .8s ease 1.2s}
+.kgwrap:has(.edges.on) .hubs{opacity:1}
+.kg .hub{fill-opacity:.18;stroke-width:3}
+.kg .hn{fill:var(--ink);font-family:var(--display);font-weight:800;font-size:26px;text-anchor:middle}
+.kg .hl{fill:var(--ink);font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.06em;text-transform:uppercase;text-anchor:middle;paint-order:stroke;stroke:var(--field);stroke-width:6px}
+.kg .tl20{transform:none!important}
+.kg .tl20 text{fill:#fff;font-family:var(--body);font-size:15px;font-weight:600;paint-order:stroke;stroke:var(--field);stroke-width:4px}
+body.still .kg circle.c,body.still .kg .edges,body.still .kg .hubs{transition:none!important}
+
+/* second review, 21 Oct 2026 */
+.vid{position:absolute;right:56px;top:56px;width:560px;margin:0;z-index:4;background:#000;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.vid video{display:block;width:100%;height:auto;border:2px solid rgba(243,241,236,.35)}
+.vid figcaption{font-size:13px;color:rgba(243,241,236,.7);padding:6px 8px;background:rgba(0,20,51,.85)}
+.vid figcaption a{color:inherit}
+.pimg.book{background-size:auto 88%;background-repeat:no-repeat;background-position:86% 50%;background-color:#141A22}
+.pimg.book .pf{right:auto;width:52%;top:0;padding:28px 22px;display:flex;flex-direction:column;justify-content:flex-end;background:none}
+.pimg.tall{background-position:50% 58%}
+.kgkey{flex-direction:column;align-items:flex-start;gap:2px;top:56px;line-height:1.45;width:300px}
+.kgkey div{display:flex;align-items:center;gap:10px}
+.kgkey div span{margin-left:0}
+.kgkey b{color:var(--ink);font-weight:600;margin-right:4px}
+.kgt .t3{font-size:44px;white-space:normal;width:1060px;line-height:1.05}
+.kg .lm line{stroke:var(--ink-dim);stroke-width:1.5}
+.pimg.low{background-position:50% 92%}
+
+/* third review, 21 Oct 2026 */
+.tsub.byline{color:var(--amber);font-family:var(--display);font-weight:700;font-size:40px;letter-spacing:.06em;text-transform:uppercase;margin-top:22px}
+.pic:has(.pimg.book){gap:12px}
+.pimg.book{height:610px;background-size:auto 95%;background-position:88% 50%}
+.pimg.book .pf{width:48%}
+.pimg.vasa{height:600px;background-position:50% 50%}
+
+/* fourth review, 21 Oct 2026: quotes, insets, opening flash */
+.pq{position:absolute;right:56px;top:60px;width:620px;margin:0;z-index:4;background:rgba(0,20,51,.86);border-left:6px solid var(--amber);padding:22px 28px 20px}
+.pq p{font-family:var(--quote);font-style:italic;font-size:38px;line-height:1.25;color:var(--ink)}
+.pq cite{display:block;font-style:normal;font-size:18px;color:var(--ink-dim);margin-top:12px;line-height:1.35}
+.inset{position:absolute;right:70px;top:120px;width:720px;margin:0;z-index:3;box-shadow:0 18px 50px rgba(0,0,0,.7)}
+.inset img{display:block;width:100%;border:8px solid #E9E4D8}
+.inset figcaption,.flash figcaption{font-size:14px;color:rgba(243,241,236,.75);padding:8px 2px}
+.inset figcaption a,.flash figcaption a{color:inherit}
+.flash{position:absolute;right:90px;top:100px;width:620px;margin:0;z-index:4;opacity:0;box-shadow:0 18px 50px rgba(0,0,0,.75);background:rgba(0,20,51,.9)}
+.flash img{display:block;width:100%;border:8px solid #E9E4D8}
+.slide.active .flash{animation:flashin .8s ease forwards}
+@keyframes flashin{from{opacity:0}to{opacity:1}}
+body.still .slide.active .flash{animation:none;opacity:1}
+.slide.active:has(.flashgo.on) .flash{animation:none;opacity:0;transition:opacity 1.2s ease}
+.cquote{margin-top:26px;font-family:var(--quote);font-style:italic;font-size:27px;line-height:1.35;color:var(--ink);max-width:900px;border-left:4px solid var(--amber);padding-left:20px}
+.cquote span{display:block;font-family:var(--body);font-style:normal;font-size:17px;color:var(--ink-dim);margin-top:8px}
+
+/* Piper Alpha: a 421 px TV still shown full-bleed; soften the blocks and add grain so it reads as archival footage */
+.bg[style*="Piper_Alpha_oil_rig_fire"]{filter:blur(1.6px) contrast(1.12) saturate(1.15) brightness(1.05)}
+.grain{position:absolute;inset:-4px;z-index:1;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* text on the right when the subject of the photo is on the left */
+.scrim.right{background:linear-gradient(270deg,rgba(0,20,51,.94) 0%,rgba(0,20,51,.78) 36%,rgba(0,20,51,.2) 64%,rgba(0,20,51,0) 82%)}
+.panel.p-right{right:96px;top:0;bottom:0;width:740px;justify-content:center}
+/* Hyatt: small 1981 photo behind a see-through schematic */
+.bg[style*="Hyatt_Kansas_City_Collapse"]{filter:blur(1.4px) contrast(1.1) saturate(1.1)}
+.diagram .hy{background:rgba(0,20,51,.62);border:1px solid rgba(243,241,236,.25);padding:14px 18px 6px;backdrop-filter:blur(2px)}
+/* Quebec: show the whole cantilever arm (fit to height, anchored left) and keep the text in the space to its right */
+.bg[style*="Quebec_bridge_%28HS85"]{background-size:auto 100%!important;background-position:0 50%!important;background-color:var(--field)}
+.slide:has(.bg[style*="Quebec_bridge_%28HS85"]) .panel.p-right{width:580px;right:64px}
+
+/* a looping video as the slide background (Arecibo aerial) */
+.bgvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.slide:has(.bgvid) .scrim{z-index:1}
+.slide:has(.bgvid) .vid{right:auto;left:56px}
+.bg[style*="Aloha_Airlines_Flight_243"]{filter:blur(.7px) contrast(1.08)}
+.secpart{font-size:.5em;letter-spacing:.06em;text-transform:uppercase;vertical-align:.32em;margin-right:.08em}
+.bgvid{transform:scale(1.06)}
+.vid img{display:block;width:100%;height:auto;border:2px solid rgba(243,241,236,.35)}
+
+/* embedded YouTube clip (Fukushima): 16:9 box; the quote moves to the lower right on that slide */
+.vid.yt iframe{display:block;width:100%;aspect-ratio:16/9;border:2px solid rgba(243,241,236,.35);background:#000}
+.slide:has(.vid.yt) .pq{top:auto;bottom:64px}
+.bg[style*="flixborough_plate4"]{filter:brightness(1.45) contrast(1.18)}
+
+/* Fukushima clip: a screen recording of washed-out TV footage; warm it and add contrast at playback */
+video[src*="fukushima_unit3"]{filter:contrast(1.7) saturate(1.1) sepia(.35) hue-rotate(-8deg)}
+.slide:has(.bg[style*="Mike_Weightman"]) .pq{top:auto;bottom:56px;right:auto;left:56px;width:600px;padding:16px 24px 14px}
+.slide:has(.bg[style*="Mike_Weightman"]) .pq p{font-size:32px}
+
+/* montage of eight: two rows of four, wider images, credits line */
+.mtwrap{inset:64px 80px 50px;gap:22px}
+.tiles{row-gap:26px;column-gap:20px}
+.timg{aspect-ratio:16/9}
+.ttl{font-size:28px}
+.tds{font-size:19px}
+.mcred{font-size:12px;color:rgba(243,241,236,.5);line-height:1.4}
+.mcred a{color:inherit}
+
+/* afternoon review, 21 Oct 2026 */
+.snl{position:absolute;left:96px;right:96px;bottom:22px;font-size:12px;line-height:1.35;color:rgba(243,241,236,.55);z-index:3}
+.slide:has(.bg[style*="Piper_Alpha_oil_rig_fire"]) .panel.p-right{right:40px;width:560px}
+/* Quebec: the photo is narrower than the frame when fitted to height; do not tile it, and blend its edge into the dark side */
+.bg[style*="Quebec_bridge_%28HS85"]{background-repeat:no-repeat!important}
+.slide:has(.bg[style*="Quebec_bridge_%28HS85"]) .scrim.right{background:linear-gradient(270deg,var(--field) 0%,var(--field) 31%,rgba(0,20,51,.8) 37%,rgba(0,20,51,.2) 52%,rgba(0,20,51,0) 64%)}
+
+.cgloss:empty{display:none}
+/* Flixborough: the plate's printed "Reactors" label sits behind the heading; darken that side */
+.slide:has(.bg[style*="flixborough_plate5"]) .scrim.right{background:linear-gradient(270deg,rgba(0,20,51,.94) 0%,rgba(0,20,51,.9) 36%,rgba(0,20,51,.55) 50%,rgba(0,20,51,0) 66%)}
+.m2 .h-l{color:var(--amber)}
+.slide:has(.bg[style*="Piper_Alpha_oil_rig_fire"]) .vid{right:auto;left:56px;width:620px}
+/* countdown: "Lesson" over the big number, to set it apart from Parts 1-4 */
+.cnumw{text-align:right}
+.clab{font-family:var(--display);font-weight:700;font-size:44px;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin:0 6px 26px 0}
+/* Grenfell: the Hackitt quote sits right of the tower, over the skyline */
+.slide:has(.bg[style*="Grenfell_Tower_fire"]) .pq{top:auto;bottom:64px;right:32px;width:430px;padding:18px 22px 16px}
+.slide:has(.bg[style*="Grenfell_Tower_fire"]) .pq p{font-size:26px}
+
+/* slide 45: the engineering behind the lessons */
+.eqbg{position:absolute;inset:0;overflow:hidden}
+.eql{position:absolute;left:0;right:0;top:0;height:200%;animation:equp var(--d) linear infinite}
+.eqt{position:relative;height:50%}
+.eql span{position:absolute;white-space:nowrap;transform:translate(-50%,-50%);font-family:var(--quote);font-style:italic;color:var(--ink);opacity:.07}
+.eql.far span{opacity:.045;filter:blur(1.2px)}
+.eql.near span{opacity:.09}
+.eql span.tw{animation:eqtw 12s ease-in-out var(--tw) infinite}
+.eql sub,.eql sup{font-size:.6em}
+@keyframes equp{to{transform:translateY(-50%)}}
+@keyframes eqtw{0%,70%,100%{opacity:.07}82%{opacity:.32;color:var(--amber)}}
+body.still .eql,body.still .eql span.tw{animation:none}
+@media (prefers-reduced-motion:reduce){.eql,.eql span.tw{animation:none}}
+.engwrap{position:absolute;inset:56px 80px 50px;display:flex;flex-direction:column;gap:8px}
+.engwrap .h-l{color:var(--ink);margin-bottom:16px}
+.eng{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:10px 28px;flex:1}
+.ec{border-top:1px solid rgba(243,241,236,.18);padding-top:8px;display:flex;flex-direction:column;gap:3px;background:linear-gradient(180deg,rgba(0,20,51,.55),rgba(0,20,51,0))}
+.ec b{font-family:var(--display);font-weight:700;font-size:23px;line-height:1.05;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+.ec i{font-family:var(--quote);font-size:19px;color:rgba(243,241,236,.82);white-space:nowrap}
+.ec i sub,.ec i sup{font-size:.62em}
+.ec span{font-size:15px;color:var(--amber)}
+.slide.active .ec{animation:ecin .7s ease backwards;animation-delay:calc(.25s + var(--k) * .08s)}
+@keyframes ecin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+body.still .slide.active .ec{animation:none}
+/* Galaxy IV: the whisker photo, framed on the right of a dark slide */
+.slide:has(img[src*="whisker/photos"]) .inset{top:220px;right:56px;width:640px}
+.bg[style*="Circuit_Board_%28260854457"]{opacity:.32;filter:saturate(.55) brightness(.85)}
+/* slide 45 spotlight: all cards dim, one at a time lights up, grows and glows (talk.js spotlight) */
+.ec{position:relative;transform-origin:50% 40%;transition:opacity .8s ease,transform .6s cubic-bezier(.2,.8,.2,1),background-color .6s ease,box-shadow .6s ease}
+.eng .ec:nth-child(4n+1){transform-origin:0 40%}
+.eng .ec:nth-child(4n){transform-origin:100% 40%}
+.eng.spot .ec{opacity:.3}
+.eng.spot .ec.hot{opacity:1;transform:scale(1.33);z-index:5;background:rgba(0,20,51,.94);box-shadow:0 0 0 1px rgba(104,172,229,.55),0 0 36px rgba(104,172,229,.28);border-top-color:var(--amber);padding:8px 10px 10px;margin:-8px -10px -10px}
+.eng.spot .ec.hot b{color:#fff;text-shadow:0 0 18px rgba(104,172,229,.55)}
+.eng.spot .ec.hot i{color:var(--ink)}
+/* future disaster: the Sun fills the right; the "matter of time" strip runs along the bottom */
+.bg[style*="SVS14710"]{background-size:auto 150%!important}
+.horizon{position:absolute;right:64px;top:200px;width:540px;z-index:4;display:flex;flex-direction:column;gap:14px;background:rgba(0,20,51,.78);border-left:6px solid var(--amber);padding:26px 30px 28px}
+.horizon b{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+.horizon span{font-size:27px;line-height:1.25;color:var(--ink);padding-left:22px;position:relative}
+.horizon span:before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;background:var(--amber);border-radius:50%}
+.slide:has(.horizon) .bg{transition:filter 1s ease}
+.slide:has(.horizon.on) .bg{filter:brightness(.45)}
+.horizon span em{display:block;margin-top:2px;font-family:var(--quote);font-style:italic;font-size:21px;color:rgba(243,241,236,.68)}
+.cmp text.prop{font-size:16px;fill:var(--ink-dim)}
+/* Part dividers: a progress strip of the four parts along the bottom; current part underlined in gold, finished parts dimmed */
+.rmi.done{opacity:.4}
+.secnav{position:absolute;left:96px;right:96px;bottom:64px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.sn{border-top:4px solid rgba(243,241,236,.22);padding-top:12px;font-family:var(--display);font-weight:700;font-size:21px;line-height:1.2;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-dim)}
+.sn.cur{border-top-color:var(--amber);color:var(--ink)}
+.sn.done{opacity:.45}
+.snn{color:var(--amber);margin-right:10px}
+/* a clip on its own slide, shown on a drawn vintage TV set (cabinet, rabbit ears, knobs, curved screen with scan lines) */
+.tvwrap{position:absolute;inset:44px 80px 40px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.tvset{position:relative;width:960px;margin-top:96px}
+.ant{position:absolute;top:-96px;left:50%;width:4px;height:120px;background:linear-gradient(#c9c2b2,#6f6858);border-radius:2px;transform-origin:50% 100%}
+.ant.l{transform:translateX(-60px) rotate(-26deg)}
+.ant.r{transform:translateX(40px) rotate(24deg)}
+.ant::after{content:"";position:absolute;top:-7px;left:-5px;width:14px;height:14px;border-radius:50%;background:#d8d0bd}
+.tvset::before{content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:110px;height:30px;border-radius:55px 55px 6px 6px;background:linear-gradient(#4a3a2a,#2b2017)}
+.tvbody{position:relative;display:flex;gap:28px;padding:30px;border-radius:30px;background:linear-gradient(160deg,#5a4430 0%,#3b2a1c 55%,#2a1d13 100%);box-shadow:0 26px 70px rgba(0,0,0,.65),inset 0 2px 0 rgba(255,255,255,.12),inset 0 -3px 0 rgba(0,0,0,.4)}
+.tvscreen{position:relative;flex:1;aspect-ratio:4/3;border-radius:34px/42px;overflow:hidden;background:#0b0c0e;box-shadow:inset 0 0 0 10px #17110c,inset 0 0 50px rgba(0,0,0,.9)}
+.tvscreen video{width:100%;height:100%;object-fit:cover;display:block}
+.tvscreen .scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(rgba(0,0,0,.18) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,rgba(255,255,255,.06) 0%,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%);border-radius:inherit}
+.tvside{width:120px;display:flex;flex-direction:column;align-items:center;gap:26px;padding-top:24px}
+.knob{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9cfb9,#8c8270 55%,#4d473c);box-shadow:0 3px 8px rgba(0,0,0,.6)}
+.grille{flex:1;width:84px;margin-bottom:10px;border-radius:8px;background:repeating-linear-gradient(#22180f 0 4px,#4a3826 4px 9px)}
+.leg{position:absolute;bottom:-26px;width:16px;height:30px;background:#20160e;border-radius:0 0 6px 6px}
+.leg.l{left:90px;transform:skewX(12deg)}
+.leg.r{right:90px;transform:skewX(-12deg)}
+.tvcap{margin-top:30px;font-size:17px;color:rgba(243,241,236,.7);text-align:center}
+.tvcap a{color:inherit}
+/* slides with a "before" flash (molasses): open on a dark blue-to-black field with the "before" photo; the first click
+   fades it out, fades the full photo in underneath, and starts the pan */
+.flashgo{display:none}
+.slide:has(.flash) .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#16243a 0%,#0b0f16 60%,#000 100%);opacity:1;transition:opacity 2s ease}
+.slide.active:has(.flashgo.on) .bg::after{opacity:0}
+.slide.active:has(.flash) .bg.kb{animation:none}
+.slide.active:has(.flashgo.on) .bg.kb{animation:kb var(--kbdur,24s) cubic-bezier(.25,.1,.25,1) forwards}
+body.still .slide.active:has(.flashgo.on) .bg.kb{animation:none}
+.bg[style*="STS-107_Launch"]{background-size:135% auto!important;background-position:0% 30%!important}
+.slide:has(.bg[style*="STS-107_Launch"]) .vid{width:520px;top:auto;bottom:56px}
+.slide:has(.bg[style*="STS-107_Launch"]) .vid figcaption{font-size:20px;line-height:1.35;padding:10px 4px 4px}
+/* Hyatt: the hanger schematic arrives on the same click as "The design hung both from one rod..." */
+.diagram .hy{opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s ease}
+.diagram:has(.panel .lede[data-step].on) .hy{opacity:1;transform:none}
+body.still .diagram .hy{transition:none}
+.slide:has(.bg[style*="Mike_Weightman"]) .panel{padding-bottom:230px}
+.slide:has(.bg[style*="USS_Iowa_BB61_Iowa_Explosion"]) .vid{top:auto;bottom:56px}
+.slide:has(.bg[style*="USS_Iowa_BB61_Iowa_Explosion"]) .vid figcaption{font-size:20px;line-height:1.35;padding:10px 4px 4px}
+/* closing questions, version A: each question over the photo of the case that taught it */
+.qbg{position:absolute;inset:-2%;opacity:0;transition:opacity 1.2s ease}
+.qimg{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(.15) brightness(.62)}
+.qcase{position:absolute;right:5%;bottom:6%;text-align:right;font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.qcase span{display:block;font-family:var(--body);font-weight:400;font-size:13px;letter-spacing:0;text-transform:none;color:rgba(243,241,236,.6);margin-top:4px}
+.qscrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,20,51,.92) 0%,rgba(0,20,51,.8) 42%,rgba(0,20,51,.15) 75%,rgba(0,20,51,0) 100%)}
+.qlist{position:absolute;left:96px;top:70px;width:860px;display:flex;flex-direction:column;gap:14px}
+.qlist .kicker{margin-bottom:10px}
+.qr{font-size:28px;line-height:1.28;display:flex;gap:18px;align-items:baseline;color:var(--ink-dim)}
+.qr.on{opacity:.62}
+.qr .qn{font-size:36px;min-width:44px}
+/* closing questions, version B: a design-review checklist on blueprint paper */
+.slide.blueprint{background:#0c2847}
+.bpgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(170,205,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(170,205,255,.16) 1px,transparent 1px),linear-gradient(rgba(170,205,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(170,205,255,.07) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px;box-shadow:inset 0 0 0 26px #0c2847,inset 0 0 0 28px rgba(200,225,255,.5)}
+.bpwrap{position:absolute;left:96px;right:96px;top:62px;display:flex;flex-direction:column;gap:8px}
+.bpwrap .h-l{color:#eaf2ff;margin-bottom:14px}
+.bplist{display:grid;grid-template-columns:1fr 1fr;gap:12px 56px}
+.bpr{display:grid;grid-template-columns:34px 40px 1fr;column-gap:12px;align-items:start;border-bottom:1px dashed rgba(200,225,255,.35);padding-bottom:9px}
+.slide.active .bpr{animation:ecin .6s ease backwards;animation-delay:calc(.3s + var(--k) * .12s)}
+body.still .slide.active .bpr{animation:none}
+.box{width:26px;height:26px;border:2px solid rgba(220,235,255,.85);border-radius:3px;margin-top:5px}
+.bpn{font-family:var(--display);font-weight:800;font-size:30px;color:var(--amber);line-height:1.1}
+.bpq{font-size:24px;line-height:1.3;color:#eaf2ff}
+.bptag{grid-column:3;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:rgba(104,172,229,.85);margin-top:3px}
+.tblock{position:absolute;right:54px;bottom:54px;display:grid;grid-template-columns:repeat(3,auto);border:2px solid rgba(220,235,255,.7);background:rgba(12,40,71,.9);font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:#eaf2ff}
+.tb{border:1px solid rgba(220,235,255,.45);padding:6px 14px 8px;min-width:150px}
+.tb.wide{grid-column:1/-1}
+.tb small{display:block;font-family:var(--body);font-weight:400;font-size:11px;letter-spacing:.08em;color:rgba(220,235,255,.65)}
+.stampw{position:absolute;right:120px;top:300px;z-index:5}
+.stamp{font-family:var(--display);font-weight:800;font-size:58px;line-height:1;letter-spacing:.06em;text-transform:uppercase;color:#e0463c;border:6px solid #e0463c;border-radius:10px;padding:14px 26px;transform:rotate(-12deg);opacity:.92;mix-blend-mode:screen}
+.stampw.on .stamp{animation:stampin .35s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes stampin{from{transform:rotate(-12deg) scale(1.9);opacity:0}to{transform:rotate(-12deg) scale(1);opacity:.92}}
+.bplist{grid-auto-flow:column;grid-template-rows:repeat(5,auto)}
+.stampw{right:auto;top:auto;left:150px;bottom:96px}
+/* closing questions: mirror the Quebec photo so the fallen span sits right of the list; move the shuttle right of the list */
+.qimg[style*="Quebec_bridge"]{transform:scaleX(-1)}
+.qimg[style*="STS-107_Launch"]{background-size:150% auto;background-position:0% 30%}
+/* closing questions: everything about 25% larger for the room */
+.qlist{top:56px;width:1060px;gap:16px}
+.qlist .kicker{font-size:32px}
+.qr{font-size:35px;line-height:1.25}
+.qr .qn{font-size:45px;min-width:56px}
+.qcase{font-size:30px}
+.qcase span{font-size:16px}
+.qscrim{background:linear-gradient(90deg,rgba(0,20,51,.93) 0%,rgba(0,20,51,.84) 52%,rgba(0,20,51,.25) 80%,rgba(0,20,51,0) 100%)}
+.qcase{bottom:auto;top:5%}
+.qcase{right:56px;max-width:330px;line-height:1.15}
+.qlist{top:44px}
+.qlist .kicker{font-size:48px;letter-spacing:.06em;line-height:1.1;margin-bottom:14px}
+.qimg[style*="Aloha_Airlines_Flight_243"]{transform:scaleX(-1)}
+/* phones: no double-tap zoom on taps; a hint to turn the phone sideways when held upright */
+body{touch-action:manipulation}
+.rotate{display:none}
+@media (orientation:portrait) and (max-width:900px){.rotate{display:block;position:fixed;left:16px;right:16px;bottom:24px;z-index:60;padding:12px 16px;border-radius:10px;background:rgba(104,172,229,.95);color:#111;font-family:var(--body);font-size:15px;line-height:1.35;text-align:center;pointer-events:none}}
+@media (hover:none) and (pointer:coarse){.hud span:not(#pos){display:none}}
+/* slide pips along the bottom of the slide (as in the JHU EP decks), inside the stage so they scale with it: click one to jump */
+.pips{position:absolute;left:50%;bottom:3px;transform:translateX(-50%);display:flex;flex-wrap:wrap;justify-content:center;gap:0;max-width:840px;z-index:49}
+.pip{width:13px;height:15px;padding:4px 3px;border:0;background:rgba(238,241,244,.30);background-clip:content-box;cursor:pointer;transition:transform .2s ease,background-color .2s ease}
+.pip:hover{background-color:rgba(238,241,244,.75)}
+.pip.active{background-color:var(--amber);transform:scale(1.45)}
+body.clean .pips{display:none}
+
+/* JHU EP branch of The Wrong Ship (build_talk.py --ep). Loaded after talk.css, whose colors the build has already
+   swapped for the EP palette (EP_SWAP in build_talk.py): navy ground, JHU Yellow accent, JHU Red, Light Blue.
+   The talk stays dark and photo-led; only the first and last slides use the EP template layouts. */
+.h-xl,.h-l,.kicker{font-family:var(--display)}
+
+/* title slide: template "Title Slide - Dark Blue", the cupola in greyscale under Dark Blue at 85% */
+.slide.eptitle{background:#002D72}
+.epbg{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1)}
+.epov{position:absolute;inset:0;background:rgba(0,45,114,.85)}
+.eplogo-t{position:absolute;top:42px;right:50px;width:312px;z-index:2}
+.eptitle .tpanel{bottom:auto;top:50%;transform:translateY(-50%);gap:10px}
+.eptitle .h-xl{font-size:150px;color:#fff}
+.eptitle .tsub{font-size:44px;color:#fff;margin-top:6px}
+.eptitle .tsub.byline{font-size:36px;color:var(--amber);margin-top:34px}
+
+/* end slide: template "End Slide - Light Blue", Gilman Hall under the light-blue gradient, the shield, the copyright bar */
+.slide.epend{display:flex;align-items:center;justify-content:center;background:#3B6FAF}
+.epend .epov{background:linear-gradient(to right,rgba(105,172,229,.85) 0%,rgba(59,111,175,.85) 75%,rgba(59,111,175,.85) 100%)}
+.epshield{position:relative;z-index:2;width:650px}
+.epcopy{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);z-index:2;background:#002D72;color:#fff;font-size:18px;padding:6px 18px;white-space:nowrap}
+
+/* the WSE logo in solid white, bottom left of every slide but the first and last; a soft shadow keeps it readable over photos */
+.eplogo{position:absolute;left:28px;bottom:16px;height:44px;opacity:1;z-index:45;pointer-events:none;transition:opacity .6s;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.stage:has(.slide.eptitle.active) .eplogo,.stage:has(.slide.epend.active) .eplogo{opacity:0}
+
+/* progress strip on the Part dividers: the fourth part's longer name gets a wider column so it stays on one line */
+.secnav{grid-template-columns:1fr 1fr 1fr 1.4fr}
+.sn{white-space:nowrap}
+/* the presenter's slide counter moves to the right so it does not sit on the logo */
+.hud{justify-content:flex-end;gap:28px}
+
+/* Module 2B cinematic pilot: what a course module needs beyond The Wrong Ship's slide types (loaded after talk.css with
+   the EP palette swapped in, and talk_ep.css). Equation cards, figure plates, worked-example steps, drawn charts,
+   timelines and comparison columns. Colors come from the talk's tokens, so the EP branding carries through. */
+
+/* concept slides: kicker and headline at the top, content below */
+.cwrap2{position:absolute;inset:60px 80px 76px;display:flex;flex-direction:column;gap:22px}
+.cwrap2 .h-l{font-size:56px}
+.chead{display:flex;flex-direction:column;gap:10px}
+.cbody2{flex:1;display:grid;gap:36px;align-items:start;min-height:0}
+.g2{grid-template-columns:1fr 1fr}
+.g2w{grid-template-columns:1.15fr .85fr}
+.g2n{grid-template-columns:.8fr 1.2fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+
+/* equation card: the formula large, its symbols listed underneath */
+.eqc{background:rgba(255,255,255,.045);border-left:5px solid var(--amber);padding:16px 22px 14px;display:flex;flex-direction:column;gap:8px}
+.eqc .eqn{font-size:30px;color:var(--ink)}
+.eqc .eqt{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.eqc .eqs{font-size:16px;line-height:1.45;color:var(--ink-dim)}
+.eqc .eqs i{font-family:var(--quote);color:var(--ink)}
+.katex{font-size:1.06em}
+.eqc .katex-display{margin:4px 0}
+
+/* text blocks on concept slides */
+.pt{font-size:23px;line-height:1.42;color:var(--ink)}
+.pt.dim{color:var(--ink-dim)}
+.pt b{color:#fff;font-weight:600}
+.pt.small{font-size:19px}
+.callout2{border-left:5px solid var(--amber);padding:6px 0 6px 22px;font-size:25px;line-height:1.38;color:var(--ink)}
+.callout2 b{color:var(--amber);font-weight:600}
+.warn{border-left-color:var(--red)}
+.warn b{color:var(--red)}
+
+/* numbered steps (a worked example or a sequence), revealed one click at a time */
+.steps2{display:flex;flex-direction:column;gap:12px}
+.st2{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:baseline;font-size:22px;line-height:1.38;color:var(--ink)}
+.st2 .sn2{font-family:var(--display);font-weight:800;font-size:34px;color:var(--amber);line-height:1}
+.st2 .katex{font-size:1.02em}
+.res{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;color:#fff}
+.res small{font-family:var(--body);font-weight:400;font-size:19px;color:var(--ink-dim);margin-left:10px}
+
+/* a figure printed on a white plate, with its caption and credit below */
+.plate{margin:0;display:flex;flex-direction:column;gap:8px}
+.plate .pw{background:#fff;padding:10px;border-radius:4px;box-shadow:0 22px 60px rgba(0,0,0,.55)}
+.plate img{display:block;width:100%;height:auto}
+.plate figcaption{font-size:14px;line-height:1.35;color:rgba(243,241,236,.66)}
+.plate figcaption a{color:inherit}
+.plate.dark .pw{background:#000;padding:0}
+
+/* drawn charts */
+.chart2 svg{display:block;width:100%;height:auto;overflow:visible}
+.chart2 .ax{stroke:var(--ink-dim);stroke-width:2;fill:none}
+.chart2 .gr{stroke:rgba(255,255,255,.08);stroke-width:1}
+.chart2 text{font-family:var(--body);font-size:17px;fill:var(--ink-dim)}
+.chart2 text.lab{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.06em;text-transform:uppercase}
+.chart2 text.big{font-family:var(--display);font-weight:800;font-size:28px;fill:#fff}
+.chart2 .c1{stroke:var(--amber);fill:none;stroke-width:4}
+.chart2 .c2{stroke:#fff;fill:none;stroke-width:4}
+.chart2 .c3{stroke:var(--red);fill:none;stroke-width:4}
+.chart2 .c4{stroke:#A45C98;fill:none;stroke-width:4}
+.chart2 .dsh{stroke-dasharray:8 7}
+.chart2 .f1{fill:var(--amber)}.chart2 .f2{fill:#fff}.chart2 .f3{fill:var(--red)}
+.chart2 .t1{fill:var(--amber)}.chart2 .t2{fill:#fff}.chart2 .t3{fill:var(--red)}.chart2 .t4{fill:#C98BBF}
+.chart2 .band{fill:rgba(255,255,255,.06)}
+/* a curve draws itself when its step (or, with .now, its slide) appears */
+.drawp{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s cubic-bezier(.45,0,.2,1) .2s}
+[data-step].on .drawp,.slide.active .drawp.now{stroke-dashoffset:0}
+body.still .drawp{transition:none}
+@media (prefers-reduced-motion:reduce){.drawp{transition:none}}
+
+/* small table */
+.tb2{border-collapse:collapse;width:100%;font-size:20px}
+.tb2 th{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);text-align:left;padding:6px 12px 8px 0;border-bottom:1px solid var(--rule)}
+.tb2 td{padding:8px 12px 8px 0;border-bottom:1px solid var(--rule);color:var(--ink);vertical-align:baseline}
+.tb2 td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tb2 tr.hot td{color:#fff;font-weight:600}
+
+/* horizontal timeline: dots on a line, labels above and below */
+.tlw{position:absolute;inset:70px 80px 70px;display:flex;flex-direction:column;gap:20px}
+.tl2{position:relative;flex:1}
+.tl2 .line{position:absolute;left:0;right:0;top:50%;height:3px;background:rgba(255,255,255,.25);border:0;padding:0;max-width:none}
+.tl2 .ev{position:absolute;top:50%;width:0}
+.tl2 .ev i{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 5px rgba(104,172,229,.18)}
+.tl2 .ev.anchor i{background:#fff;width:26px;height:26px;left:-13px;top:-13px}
+.tl2 .ev .lb{position:absolute;left:0;transform:translateX(-50%);width:190px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.tl2 .ev.up .lb{bottom:30px}
+.tl2 .ev.dn .lb{top:30px}
+.tl2 .ev.up2 .lb{bottom:150px}
+.tl2 .ev.dn2 .lb{top:150px}
+.tl2 .ev.up3 .lb{bottom:250px}
+.tl2 .ev .yr{font-family:var(--display);font-weight:800;font-size:34px;color:var(--amber);line-height:1}
+.tl2 .ev.anchor .yr{color:#fff}
+.tl2 .ev .nm{font-size:18px;line-height:1.25;color:var(--ink)}
+.tl2 .ev .stem{position:absolute;left:-1px;width:2px;background:rgba(255,255,255,.22)}
+.tl2 .ev.up .stem{bottom:12px;height:16px}.tl2 .ev.dn .stem{top:12px;height:16px}
+.tl2 .ev.up2 .stem{bottom:12px;height:136px}.tl2 .ev.dn2 .stem{top:12px;height:136px}.tl2 .ev.up3 .stem{bottom:12px;height:236px}
+.tl2 .ax2{position:absolute;top:calc(50% + 10px);font-size:15px;color:var(--ink-dim);transform:translateX(-50%)}
+
+/* vertical milestone list (regulation history and similar) */
+.ms{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.msr{display:grid;grid-template-columns:150px 1fr;gap:26px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.msr .y{font-family:var(--display);font-weight:800;font-size:34px;color:var(--amber);line-height:1}
+.msr .d{font-size:21px;line-height:1.36;color:var(--ink)}
+.msr .d b{color:#fff;font-weight:600}
+.msr.key .y{color:#fff}
+
+/* comparison columns (philosophies, frameworks) */
+.cmpc{border-top:4px solid var(--amber);padding-top:14px;display:flex;flex-direction:column;gap:12px}
+.cmpc.alt{border-top-color:#fff}
+.cmpc.bad{border-top-color:var(--red)}
+.cmpc .ct{font-family:var(--display);font-weight:800;font-size:38px;line-height:1;text-transform:uppercase;color:#fff}
+.cmpc .cs{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.cmpc.bad .cs{color:var(--red)}
+.cmpc p{font-size:20px;line-height:1.4;color:var(--ink)}
+.cmpc p b{color:#fff;font-weight:600}
+
+/* a small framed photo on a concept or case slide (portraits, archival prints too small to fill the screen) */
+.inset2{position:absolute;margin:0;z-index:3;box-shadow:0 18px 50px rgba(0,0,0,.7)}
+.inset2 img{display:block;width:100%;border:8px solid #E9E4D8}
+.inset2 figcaption{font-size:14px;line-height:1.35;color:rgba(243,241,236,.75);padding:8px 2px}
+.inset2 figcaption a{color:inherit}
+
+/* the feedback loop on the Millennium Bridge slide */
+.loop{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.loop .lp{background:rgba(255,255,255,.05);border-top:3px solid var(--amber);padding:12px 16px;font-size:20px;line-height:1.36;color:var(--ink)}
+.loop .lp b{font-family:var(--display);font-weight:800;font-size:26px;color:var(--amber);margin-right:8px}
+
+/* resources: four short lists */
+.res4{display:grid;grid-template-columns:1fr 1fr;gap:26px 64px}
+.res4 h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.res4 li{list-style:none;font-size:20px;line-height:1.35;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--rule)}
+.res4 li span{color:var(--ink-dim)}
+
+/* takeaways */
+.tk{display:flex;flex-direction:column;gap:14px}
+.tkr{display:grid;grid-template-columns:90px 1fr;gap:24px;align-items:baseline;border-top:1px solid var(--rule);padding-top:12px}
+.tkr .n{font-family:var(--display);font-weight:800;font-size:58px;line-height:.8;color:var(--amber)}
+.tkr .p{font-size:26px;line-height:1.3;color:#fff;font-weight:600}
+.tkr .p span{display:block;font-weight:400;font-size:21px;color:var(--ink-dim);margin-top:4px}
+
+/* contested figures, marked as the course marks them */
+.ctd{color:var(--amber);font-weight:600;white-space:nowrap}
+
+/* ── shared engine additions (27 Oct 2026) ── */
+/* montage of minor revisited cases: tiles that arrive one click at a time */
+.mont{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;flex:1;align-content:start}
+.mont .mt{display:flex;flex-direction:column;gap:10px}
+.mont .mti{aspect-ratio:16/9;background-size:cover;background-position:center;border-radius:3px;filter:grayscale(.15)}
+.mont .mti.none{background:var(--steel)}
+.mont .mtt{font-family:var(--display);font-weight:700;font-size:28px;line-height:1.05;text-transform:uppercase;color:var(--amber)}
+.mont .mtd{font-size:20px;line-height:1.38;color:var(--ink)}
+.mcred{font-size:12px;color:rgba(243,241,236,.5);line-height:1.4}
+.mcred a{color:inherit}
+
+/* weekly "What's due" slide */
+.wksub{font-size:22px;color:var(--ink-dim)}
+.wkcard{border-top:4px solid var(--amber);padding-top:10px;margin-bottom:22px}
+.wkcard.quiz{border-top-color:#fff}
+.wkcard .wkt{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.wkcard.quiz .wkt{color:#fff}
+.wkcard ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.wkcard li{position:relative;padding-left:24px;font-size:22px;line-height:1.35;color:var(--ink)}
+.wkcard li:before{content:"";position:absolute;left:2px;top:.55em;width:9px;height:9px;background:var(--amber)}
+
+/* Module Question */
+.mq .mqbox{position:absolute;left:120px;right:120px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:26px;border-left:8px solid var(--amber);padding-left:44px}
+.mq .mqt{font-family:var(--quote);font-style:italic;font-size:38px;line-height:1.35;color:var(--ink)}
+.mq .mqs{font-size:22px;color:var(--ink-dim)}
+
+/* "Go deeper" appendix pips sit apart from the lecture's */
+.pip.apx{opacity:.45}
+.pip:not(.apx)+.pip.apx{margin-left:14px}
+
+/* the course's glossary popover (glosspop) at stage scale: a readable symbols button on equation cards */
+.eqc.has-vars{padding-right:130px}
+.stage .vbtn{top:12px;right:14px;font-size:15px;padding:2px 12px;border-radius:12px;background:#002D72;border-color:var(--amber)}
+abbr[title]{text-decoration:underline dotted rgba(255,255,255,.45);text-underline-offset:4px}
+
+/* the case wall (core.case_wall): 28 tiles, the modules taught so far carry their anchor photo */
+.cwall{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.cw{aspect-ratio:16/9;position:relative;border-radius:3px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);overflow:hidden}
+.cw .cwi{position:absolute;inset:0;background-size:cover;background-position:center}
+.cw .cwm{position:absolute;left:9px;top:5px;font-family:var(--display);font-weight:800;font-size:22px;color:rgba(243,241,236,.28);z-index:2}
+.cw.full .cwm,.cw.text .cwm{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.cw .cwl{position:absolute;left:0;right:0;bottom:0;padding:16px 9px 6px;font-size:16px;line-height:1.2;color:#fff;background:linear-gradient(rgba(0,20,51,0),rgba(0,20,51,.85));z-index:2}
+.cw.text{background:rgba(104,172,229,.12)}
+.cw.now{outline:3px solid var(--amber);outline-offset:2px}
+.cw.now[data-step]:not(.strk){transform:scale(1.25)}
+.cw.now[data-step].on{transform:none}
+
+/* Topic 16 pitch: static version of the cinematic look (no motion, no click reveals). Loaded after the copied
+   talk.css (EP palette swapped in), talk_ep.css and cine.css. */
+:root{--gold:#F1C400;--warm:#E8A33D;--ink-soft:#C9D6E8}
+.slide,.slide.active{transition:none!important}
+.bg{inset:0;filter:none}
+.bg.kb,.slide.active .bg.kb{animation:none!important}
+
+/* shared */
+.k2{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.hh{font-family:var(--display);font-weight:800;font-size:60px;line-height:.98;text-transform:uppercase;color:#fff;text-wrap:balance}
+.hh .acc{color:var(--amber)}
+.ld{font-size:23px;line-height:1.42;color:var(--ink)}
+.ld b{color:#fff;font-weight:600}
+.cap{font-size:13px;line-height:1.35;color:rgba(243,241,236,.72);margin-top:6px}
+.cap a,.credit a{color:inherit}
+.cap b{color:#fff;font-weight:600}
+.src{font-size:12.5px;line-height:1.3;color:rgba(243,241,236,.55)}
+.src a{color:inherit}
+.it{font-family:var(--quote);font-style:italic;font-size:27px;line-height:1.32;color:#fff;border-left:5px solid var(--gold);padding-left:20px}
+.plt{background:#fff;padding:8px;border-radius:3px;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.plt img{display:block;width:100%;height:auto}
+.dk img{display:block;width:100%;height:auto;border-radius:3px;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.st3{display:flex;gap:34px}
+.st3 .n{font-family:var(--display);font-weight:800;font-size:58px;line-height:.9;color:#fff}
+.st3 .n small{font-size:30px;color:var(--amber);margin-left:4px}
+.st3 .l{font-size:16px;line-height:1.3;color:var(--ink-soft);margin-top:6px;max-width:190px}
+.st3 .l .src{display:block;margin-top:3px}
+.abs{position:absolute}
+.eplogo{opacity:1}
+.foot{position:absolute;left:300px;right:28px;bottom:22px;font-size:14px;color:rgba(243,241,236,.6);text-align:right;z-index:5}
+.foot a{color:inherit}
+
+/* slide 1 */
+.s1 .glow{position:absolute;inset:0;background:radial-gradient(70% 90% at 78% 40%,rgba(104,172,229,.16) 0%,rgba(0,20,51,0) 60%),var(--field)}
+.gap3{display:grid;grid-template-columns:1fr;gap:10px}
+.gc{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:baseline;border-top:1px solid var(--rule);padding-top:8px}
+.gc .t{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+.gc .d{font-size:17px;line-height:1.35;color:var(--ink)}
+.gc.hot .t{color:var(--gold)}
+.team1{font-size:16px;line-height:1.45;color:var(--ink-soft)}
+.team1 b{color:#fff;font-weight:600}
+
+/* slide 2 */
+.s2 .scr{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,20,51,.96) 0%,rgba(0,20,51,.9) 34%,rgba(0,20,51,.45) 52%,rgba(0,20,51,0) 66%)}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.trio figure{margin:0}
+.trio .im{height:112px;border-radius:3px;background-size:cover;background-position:center;box-shadow:0 12px 34px rgba(0,0,0,.6)}
+.trio .tt{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-top:8px}
+.trio .tx{font-size:14.5px;line-height:1.3;color:var(--ink-soft)}
+.ladder{display:flex;gap:8px;align-items:center;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.1em;text-transform:uppercase}
+.ladder span{padding:3px 10px;border:1px solid rgba(104,172,229,.6);border-radius:14px;color:var(--ink)}
+.ladder span.on{background:var(--amber);color:#001433;border-color:var(--amber)}
+.ladder i{font-style:normal;color:var(--amber)}
+
+/* drawn schematics */
+svg.sch{display:block;width:100%;height:auto;overflow:visible}
+.sch text{font-family:Tahoma,Verdana,'Segoe UI',sans-serif;fill:var(--ink)}
+.sch .lab{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.sch .dim{fill:var(--ink-soft)}
+.sch .acc{fill:var(--amber)}
+.sch .gold{fill:var(--gold)}
+.sch .red{fill:var(--red)}
+
+/* slide 4 */
+.rk{display:flex;flex-direction:column;gap:10px}
+.rkr{display:grid;grid-template-columns:1fr 150px;gap:14px;align-items:center;background:rgba(255,255,255,.045);border-radius:4px;padding:10px 14px}
+.rkr .q{font-size:17px;line-height:1.32;color:var(--ink)}
+.rkr .q b{display:block;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.rkr .h{font-family:var(--display);font-weight:800;font-size:22px;color:var(--gold);text-align:right;line-height:1.05}
+.rkr .h small{display:block;font-family:var(--body);font-weight:400;font-size:13px;color:var(--ink-soft)}
+
+/* slide 5 */
+.tier{display:grid;grid-template-columns:230px 1fr;gap:18px;align-items:center;border-top:1px solid var(--rule);padding:10px 0}
+.tier .ti{height:128px;border-radius:3px;background-color:#fff;background-size:cover;background-position:center;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.tier .tn{font-family:var(--display);font-weight:800;font-size:26px;text-transform:uppercase;color:#fff;line-height:1}
+.tier .tn span{color:var(--amber);margin-right:8px}
+.tier .td{font-size:16.5px;line-height:1.35;color:var(--ink);margin-top:4px}
+.tier .td i{color:var(--gold);font-style:normal}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chips span{font-size:16px;color:var(--ink);background:rgba(104,172,229,.14);border:1px solid rgba(104,172,229,.4);border-radius:16px;padding:4px 12px}
+.chips span b{color:var(--amber);font-weight:600}
+
+/* slide 6 */
+.tm{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tmc{background:rgba(255,255,255,.05);border-radius:4px;padding:18px 16px 18px;min-height:178px;border-top:3px solid var(--amber)}
+.tmc.early{border-top-color:var(--gold)}
+.tmc .nm{font-family:var(--display);font-weight:800;font-size:30px;text-transform:uppercase;color:#fff;line-height:1}
+.tmc .in{font-size:15px;color:var(--amber);margin:3px 0 6px;letter-spacing:.04em}
+.tmc.early .in{color:var(--gold)}
+.tmc .cp{font-size:17px;line-height:1.32;color:var(--ink)}
+.band{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:rgba(241,196,0,.08);border:1px solid rgba(241,196,0,.35);border-radius:4px;padding:12px 16px}
+.band .bt{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);line-height:1.05}
+.band .bd{font-size:18px;line-height:1.38;color:var(--ink)}
+.band .bd b{color:#fff;font-weight:600}
+.yrs{display:flex;flex-direction:column}
+.yr{display:grid;grid-template-columns:80px 1fr;gap:14px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--rule)}
+.yr .y{font-family:var(--display);font-weight:800;font-size:34px;color:var(--amber);line-height:1}
+.yr .d{font-size:18.5px;line-height:1.34;color:var(--ink)}
+.yr .d b{color:#fff;font-weight:600}
+.yr.key .y{color:var(--gold)}
+.mx{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+.mx div{font-size:17px;line-height:1.3;color:var(--ink);padding-left:16px;position:relative}
+.mx div:before{content:"";position:absolute;left:0;top:.45em;width:8px;height:8px;background:var(--gold);border-radius:50%}
+.cost{display:flex;align-items:baseline;gap:16px}
+.cost .n{font-family:var(--display);font-weight:800;font-size:52px;line-height:.9;color:#fff}
+.cost .d{font-size:17px;line-height:1.35;color:var(--ink-soft)}
+
+/* slide 7 */
+.s7 .scr{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,20,51,.96) 0%,rgba(0,20,51,.9) 33%,rgba(0,20,51,.4) 50%,rgba(0,20,51,0) 62%)}
+.pay{display:flex;flex-direction:column;gap:12px}
+.pr{display:grid;grid-template-columns:46px 1fr;gap:14px;align-items:start;border-top:1px solid var(--rule);padding-top:10px}
+.pr .ic{width:40px;height:40px;border-radius:50%;background:rgba(104,172,229,.18);border:1px solid var(--amber);display:flex;align-items:center;justify-content:center}
+.pr .ic svg{width:24px;height:24px}
+.pr .t{font-size:19px;line-height:1.34;color:var(--ink)}
+.pr .t b{color:#fff;font-weight:600}
+
+/* viewing modes: presenting (one slide, keys) and ?all (every slide stacked, also for printing) */
+body.all{overflow:auto;height:auto}
+body.all .viewport{position:static;overflow:visible;background:#000}
+body.all .stage{position:relative;transform:none!important;height:auto;width:auto;background:#000;overflow:visible}
+body.all .stage::after{display:none}
+body.all .slide{position:relative;opacity:1;visibility:visible;width:1600px;height:900px;margin:0 auto 24px;overflow:hidden}
+body.all .eplogo.global{display:none}
+.slide .eplogo{display:block}
+@media print{@page{size:1600px 900px;margin:0}body.all .slide{margin:0;page-break-after:always;break-after:page}}
+.hud2{position:fixed;right:14px;bottom:8px;font-size:12px;color:rgba(255,255,255,.35);font-family:Tahoma,sans-serif;z-index:99}
+body.all .hud2{display:none}
+
+.s1 .st3 .n{font-size:70px}
+.s1 .st3 .l{font-size:17px}
+.s1 .team1{font-size:17px}
+
+.credit{background:rgba(0,20,51,.62);padding:3px 9px;border-radius:3px;color:rgba(243,241,236,.8)}
+
+/* slide number, upper right of every slide */
+.pgn{position:absolute;top:22px;right:30px;z-index:46;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.12em;color:rgba(243,241,236,.78);text-shadow:0 1px 4px rgba(0,0,0,.75)}
+.hud2{display:none}
+
+/* self-sensing slide */
+.bio3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.bio3 figure{margin:0}
+.bio3 .im{height:200px;border-radius:3px;background-size:cover;background-position:center;box-shadow:0 12px 34px rgba(0,0,0,.6)}
+.bio3 .tt{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase;color:#fff;margin-top:10px}
+.bio3 .tx{font-size:15.5px;line-height:1.34;color:var(--ink);margin:3px 0 4px}
+.snb{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:rgba(104,172,229,.08);border:1px solid rgba(104,172,229,.35);border-radius:4px;padding:12px 16px}
+.snb .bt{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);line-height:1.05}
+.snb .chips span{font-size:15.5px}
+
+/* slide 1 gap list: label above text */
+.s1 .gc{grid-template-columns:1fr;gap:2px;padding-top:7px}
+.s1 .gc .d{font-size:16px}
+
+/* team headshots */
+.tmc{display:grid;grid-template-columns:78px 1fr;gap:12px;align-items:start}
+.tmc .face{width:78px;height:78px;border-radius:50%;background-size:cover;background-position:center;border:2px solid var(--amber)}
+.tmc.early .face{border-color:var(--gold)}
+.tmc .face.none{display:flex;align-items:center;justify-content:center;background:rgba(104,172,229,.15);font-family:var(--display);font-weight:800;font-size:36px;color:#fff}
+.tmc .nm{font-size:27px}
+.tmc .cp{font-size:15.5px}
+
+/* PRIVATE label, top left of every slide */
+.pvt{position:absolute;top:20px;left:0;right:0;text-align:center;z-index:46;font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#B7C2D2;text-shadow:0 1px 4px rgba(0,0,0,.8);pointer-events:none}
+
+</style>
+</head>
+<body>
+<div class="viewport"><div class="stage" id="stage">
+<section class="slide s1"><div class="glow"></div>
+<div class="abs" style="left:80px;top:70px;width:700px;height:740px;display:flex;flex-direction:column;justify-content:space-between">
+  <div class="k2">ONR FY27 MURI &middot; Topic 16 &middot; Recurrent self-healing</div>
+  <div class="hh">Metals can heal. <span class="acc">How do we make it happen with intent?</span></div>
+  <div class="ld" style="font-size:25px">A metal under load either deforms or fractures, and both are permanent. Then, inside an electron microscope, we watched a fatigue crack in platinum <b>weld itself shut</b>.</div>
+  <div class="st3">
+    <div><div class="n">40<small>min</small></div><div class="l">into cyclic loading at 200 cycles per second, the crack closed<span class="src"><a href="https://www.sciencedaily.com/releases/2023/07/230719112556.htm" target="_blank" rel="noopener">Sandia news release via ScienceDaily, 19 July 2023</a></span></div></div>
+    <div><div class="n">62&rarr;36<small>nm</small></div><div class="l">crack length, read from Fig. 2k of the paper<span class="src">Source: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a></span></div></div>
+    <div><div class="n">90<small>%</small></div><div class="l">up to this share of in-service structural failures comes from fatigue<span class="src">Barr et al. abstract</span></div></div>
+  </div>
+  <div class="it" style="font-size:30px">Our goal is not a self-healing part. It is the science that makes recurrent healing designable.</div>
+  <div class="team1"><b>Brad L. Boyce</b> (lead PI, JHU) &middot; Somnath Ghosh, Jamie Guest (JHU) &middot; Suresh Babu (UMD) &middot; Ophelia Bolmin (CMU) &middot; Carlos Portela (MIT)</div>
+</div>
+<div class="abs" style="left:830px;top:70px;width:700px">
+  <div class="plt"><img src="assets/kinematic-metal-healing/img-barr-heal-strip-1900.jpg" alt="Three TEM frames: crack faces touch, then the deflected crack heals"></div>
+  <div class="cap"><b>In situ TEM, nanocrystalline platinum under cyclic loading.</b> Left: crack faces touch (n = 644,000 cycles). Right: the deflected crack has healed (n = 664,100). Scale bars 50 nm. Figure: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>, Fig. 2d to f</div>
+  <div style="display:grid;grid-template-columns:340px 1fr;gap:24px;margin-top:22px;align-items:start">
+    <div><div class="plt"><img src="assets/kinematic-metal-healing/img-barr-crack-plot-1000.jpg" alt="Crack length against fatigue cycles, dropping at healing"></div>
+      <div class="cap">Crack length against cycles: a sudden drop when the crack faces cold-weld. Figure: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>, Fig. 2k</div></div>
+    <div><div class="k2" style="font-size:19px;margin-bottom:8px">The gap: no general laws for recurrent healing</div>
+      <div class="gap3">
+        <div class="gc"><div class="t">Biological</div><div class="d">Living tissue heals again and again, using cells and a supply of material. Bio-inspired capsules copy the supply, but heal a site only once.<div class="src">Source: <a href="https://doi.org/10.1038/nmat1934" target="_blank" rel="noopener">Toohey et al., Nat. Mater. 6, 581 (2007)</a></div></div></div>
+        <div class="gc hot"><div class="t">Metallurgical</div><div class="d">Cracks in metal can cold-weld shut at the nanoscale, so far by chance, never yet by design.</div></div>
+        <div class="gc"><div class="t">Architectural</div><div class="d">Lattices recover their shape, but not their damaged material.</div></div>
+      </div></div>
+  </div>
+</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">1 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s2"><div class="bg" role="img" aria-label="A paper wasp in flight above its nest" style="background-image:url('assets/kinematic-metal-healing/commons-wasps-on-nest-2000.jpg');background-position:0% 46%;background-size:128% auto"></div><div class="scr"></div>
+<div class="abs" style="left:80px;top:50px;width:650px;display:flex;flex-direction:column;gap:13px">
+  <div class="k2">Lead with nature &middot; Topic 16 asks for it</div>
+  <div class="hh">Nature heals by <span class="acc">designing interfaces</span></div>
+  <div class="ld">The paper wasp builds its nest additively from plant fiber. Its wings <b>hook together for flight and release at rest</b>, every flight.</div>
+  <div class="st3">
+    <div><div class="n">20</div><div class="l">hooks couple the two wings of <i>Polistes dominula</i><span class="src">Source: <a href="https://doi.org/10.1002/advs.202004383" target="_blank" rel="noopener">Eraghi et al., Adv. Sci. 8, 2004383 (2021)</a></span></div></div>
+    <div><div class="n">2,900<small>&times;</small></div><div class="l">simulated hook capacity, 2.45 N, against a 0.85 mN body weight</div></div>
+  </div>
+  <div class="trio">
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/commons-bur-700.jpg')"></div><div class="tt">Hooks</div><div class="tx">Hooks catch and release. The model for Velcro.</div><div class="src">Photo: <a href="https://commons.wikimedia.org/wiki/File:Bur_Macro_BlackBg.jpg" target="_blank" rel="noopener">Zephyris, CC BY-SA 3.0, Wikimedia Commons</a></div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/commons-peacock-feather-700.jpg');background-position:50% 60%"></div><div class="tt">Barbules</div><div class="tx">Barbules unzip without tearing; preening zips them back.</div><div class="src">Photo: <a href="https://commons.wikimedia.org/wiki/File:%D0%9F%D0%B5%D1%80%D0%BE_%D0%BF%D0%B0%D0%B2%D0%BB%D0%B8%D0%BD%D0%B0_%D0%BF%D0%BE%D0%B4_%D0%BC%D0%B8%D0%BA%D1%80%D0%BE%D1%81%D0%BA%D0%BE%D0%BF%D0%BE%D0%BC.jpg" target="_blank" rel="noopener">Gribkov, CC BY 4.0, Wikimedia Commons</a> &middot; Unzipping: <a href="https://doi.org/10.1098/rsif.2013.0988" target="_blank" rel="noopener">Kovalev et al., J. R. Soc. Interface 11, 20130988 (2014)</a></div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-osteon-crack-sq-700.jpg');background-color:#fff"></div><div class="tt">Remodeling</div><div class="tx">Bone finds microcracks and rebuilds around them.</div><div class="src">Illustration: <a href="https://commons.wikimedia.org/wiki/File:Bone_units_with_cracks_-_Osteons_Osteons_with_microcracks_--_Smart-Servier.jpg" target="_blank" rel="noopener">Laboratoires Servier, CC BY-SA 3.0, Wikimedia Commons</a> &middot; Repair: <a href="https://doi.org/10.1038/nmat1866" target="_blank" rel="noopener">Taylor et al., Nat. Mater. 6, 263 (2007)</a></div></figure>
+  </div>
+  <div class="it" style="font-size:24px">Nature heals by architecting interfaces. Can we architect metals the same way?</div>
+</div>
+<div class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Haus-Feldwespe_(Polistes_dominula)_auf_Nest-20230601-RM-141623.jpg" target="_blank" rel="noopener">Ermell, CC BY-SA 4.0, Wikimedia Commons</a></div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">2 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s3"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2">The idea &middot; damage opens interfaces, architecture reseals them</div>
+  <div class="hh">Architecting allows us to tailor energy storage and interfaces <span class="acc">to enable healing by design</span></div>
+</div>
+<div class="abs" style="left:70px;top:232px;width:860px"><svg class="sch" viewBox="0 0 930 506" aria-label="Zipper of relatching barbs backed by bistable and self-sensing lattice layers"><g transform="translate(15,296) scale(0.66)"><path d="M0,130 H1330 V220 H0 Z M35,130 L45,140 V152 L21,162 V196 H99 V162 L75,152 V140 L85,130 ZM145,130 L155,140 V152 L131,162 V196 H209 V162 L185,152 V140 L195,130 ZM255,130 L265,140 V152 L241,162 V196 H319 V162 L295,152 V140 L305,130 ZM365,130 L375,140 V152 L351,162 V196 H429 V162 L405,152 V140 L415,130 ZM475,130 L485,140 V152 L461,162 V196 H539 V162 L515,152 V140 L525,130 ZM585,130 L595,140 V152 L571,162 V196 H649 V162 L625,152 V140 L635,130 ZM695,130 L705,140 V152 L681,162 V196 H759 V162 L735,152 V140 L745,130 ZM805,130 L815,140 V152 L791,162 V196 H869 V162 L845,152 V140 L855,130 ZM915,130 L925,140 V152 L901,162 V196 H979 V162 L955,152 V140 L965,130 ZM1025,130 L1035,140 V152 L1011,162 V196 H1089 V162 L1065,152 V140 L1075,130 ZM1135,130 L1145,140 V152 L1121,162 V196 H1199 V162 L1175,152 V140 L1185,130 ZM1245,130 L1255,140 V152 L1231,162 V196 H1309 V162 L1285,152 V140 L1295,130 Z" fill="#8FA3BF" fill-rule="evenodd"/><path d="M0,-147 L60,-135 L170,-75 L280,-20 L390,27 L500,63 L610,85 L720,99 L830,110 L940,115 L1050,115 L1160,115 L1270,115 L1330,115" stroke="#A45C98" stroke-width="30" fill="none" stroke-linejoin="round"/><g transform="rotate(28.6 60 -135)"><rect x="52" y="-121" width="16" height="19" fill="#A45C98"/><path d="M58,-102 L29,-90 L58,-60 Z" fill="#A45C98"/><path d="M62,-102 L91,-90 L62,-60 Z" fill="#A45C98"/><rect x="8" y="-237" width="104" height="87" fill="rgba(176,114,166,.10)"/><path d="M8,-237 H112 M8,-150 H112 M8,-237 L2,-229 L14,-215 L2,-200 L14,-186 L2,-171 L14,-157 L8,-150 M112,-237 L106,-229 L118,-215 L106,-200 L118,-186 L106,-171 L118,-157 L112,-150" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M60,-178 V-150" stroke="#B072A6" stroke-width="5"/><path d="M10,-193 Q60,-163 110,-193" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="8" y="-324" width="104" height="87" fill="rgba(176,114,166,.10)"/><path d="M8,-324 H112 M8,-237 H112 M8,-324 L2,-316 L14,-302 L2,-287 L14,-273 L2,-258 L14,-244 L8,-237 M112,-324 L106,-316 L118,-302 L106,-287 L118,-273 L106,-258 L118,-244 L112,-237" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M60,-265 V-237" stroke="#B072A6" stroke-width="5"/><path d="M10,-280 Q60,-250 110,-280" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="8" y="-411" width="104" height="87" fill="rgba(255,154,46,.07)"/><path d="M8,-411 H112 M8,-324 H112 M8,-411 L2,-403 L14,-389 L2,-374 L14,-360 L2,-345 L14,-331 L8,-324 M112,-411 L106,-403 L118,-389 L106,-374 L118,-360 L106,-345 L118,-331 L112,-324" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M18,-403 L102,-332 M102,-403 L18,-332" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M60,-401 L98,-367 L60,-334 L22,-367 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M60,-401 L98,-367 L60,-334 L22,-367 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/><circle cx="39" cy="-385" r="6" fill="#F1C400"/><circle cx="39" cy="-349" r="6" fill="#F1C400"/><circle cx="81" cy="-385" r="6" fill="#F1C400"/><circle cx="81" cy="-349" r="6" fill="#F1C400"/></g><g transform="rotate(27.6 170 -75)"><rect x="162" y="-61" width="16" height="19" fill="#A45C98"/><path d="M168,-42 L139,-30 L168,0 Z" fill="#A45C98"/><path d="M172,-42 L201,-30 L172,0 Z" fill="#A45C98"/><rect x="118" y="-171" width="104" height="81" fill="rgba(176,114,166,.10)"/><path d="M118,-171 H222 M118,-90 H222 M118,-171 L112,-164 L124,-151 L112,-137 L124,-124 L112,-110 L124,-96 L118,-90 M222,-171 L216,-164 L228,-151 L216,-137 L228,-124 L216,-110 L228,-96 L222,-90" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M170,-115 V-90" stroke="#B072A6" stroke-width="5"/><path d="M120,-130 Q170,-100 220,-130" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="118" y="-253" width="104" height="81" fill="rgba(176,114,166,.10)"/><path d="M118,-253 H222 M118,-171 H222 M118,-253 L112,-246 L124,-232 L112,-219 L124,-205 L112,-192 L124,-178 L118,-171 M222,-253 L216,-246 L228,-232 L216,-219 L228,-205 L216,-192 L228,-178 L222,-171" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M170,-197 V-171" stroke="#B072A6" stroke-width="5"/><path d="M120,-212 Q170,-182 220,-212" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="118" y="-334" width="104" height="81" fill="rgba(255,154,46,.07)"/><path d="M118,-334 H222 M118,-253 H222 M118,-334 L112,-327 L124,-314 L112,-300 L124,-287 L112,-273 L124,-259 L118,-253 M222,-334 L216,-327 L228,-314 L216,-300 L228,-287 L216,-273 L228,-259 L222,-253" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M128,-326 L212,-261 M212,-326 L128,-261" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M170,-324 L208,-293 L170,-263 L132,-293 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M170,-324 L208,-293 L170,-263 L132,-293 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/><circle cx="149" cy="-310" r="6" fill="#F1C400"/><circle cx="149" cy="-277" r="6" fill="#F1C400"/><circle cx="191" cy="-310" r="6" fill="#F1C400"/><circle cx="191" cy="-277" r="6" fill="#F1C400"/></g><g transform="rotate(24.9 280 -20)"><rect x="272" y="-6" width="16" height="19" fill="#A45C98"/><path d="M278,13 L249,25 L278,55 Z" fill="#A45C98"/><path d="M282,13 L311,25 L282,55 Z" fill="#A45C98"/><rect x="228" y="-110" width="104" height="75" fill="rgba(176,114,166,.10)"/><path d="M228,-110 H332 M228,-35 H332 M228,-110 L222,-104 L234,-91 L222,-79 L234,-66 L222,-53 L234,-41 L228,-35 M332,-110 L326,-104 L338,-91 L326,-79 L338,-66 L326,-53 L338,-41 L332,-35" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M280,-57 V-35" stroke="#B072A6" stroke-width="5"/><path d="M230,-72 Q280,-42 330,-72" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="228" y="-186" width="104" height="75" fill="rgba(176,114,166,.10)"/><path d="M228,-186 H332 M228,-110 H332 M228,-186 L222,-179 L234,-167 L222,-154 L234,-142 L222,-129 L234,-116 L228,-110 M332,-186 L326,-179 L338,-167 L326,-154 L338,-142 L326,-129 L338,-116 L332,-110" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M280,-133 V-110" stroke="#B072A6" stroke-width="5"/><path d="M230,-148 Q280,-118 330,-148" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="228" y="-261" width="104" height="75" fill="rgba(255,154,46,.07)"/><path d="M228,-261 H332 M228,-186 H332 M228,-261 L222,-255 L234,-242 L222,-230 L234,-217 L222,-205 L234,-192 L228,-186 M332,-261 L326,-255 L338,-242 L326,-230 L338,-217 L326,-205 L338,-192 L332,-186" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M238,-253 L322,-194 M322,-253 L238,-194" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M280,-251 L318,-223 L280,-196 L242,-223 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M280,-251 L318,-223 L280,-196 L242,-223 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/><circle cx="259" cy="-238" r="6" fill="#F1C400"/><circle cx="259" cy="-209" r="6" fill="#F1C400"/><circle cx="301" cy="-238" r="6" fill="#F1C400"/><circle cx="301" cy="-209" r="6" fill="#F1C400"/></g><g transform="rotate(20.7 390 27)"><rect x="382" y="41" width="16" height="19" fill="#A45C98"/><path d="M388,60 L359,72 L388,102 Z" fill="#A45C98"/><path d="M392,60 L421,72 L392,102 Z" fill="#A45C98"/><rect x="338" y="-57" width="104" height="69" fill="rgba(176,114,166,.10)"/><path d="M338,-57 H442 M338,12 H442 M338,-57 L332,-51 L344,-40 L332,-28 L344,-16 L332,-5 L344,6 L338,12 M442,-57 L436,-51 L448,-40 L436,-28 L448,-16 L436,-5 L448,6 L442,12" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M390,-7 V12" stroke="#B072A6" stroke-width="5"/><path d="M340,-22 Q390,7 440,-22" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="338" y="-127" width="104" height="69" fill="rgba(176,114,166,.10)"/><path d="M338,-127 H442 M338,-57 H442 M338,-127 L332,-121 L344,-109 L332,-98 L344,-86 L332,-75 L344,-63 L338,-57 M442,-127 L436,-121 L448,-109 L436,-98 L448,-86 L436,-75 L448,-63 L442,-57" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M390,-77 V-57" stroke="#B072A6" stroke-width="5"/><path d="M340,-92 Q390,-62 440,-92" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="338" y="-196" width="104" height="69" fill="rgba(255,154,46,.07)"/><path d="M338,-196 H442 M338,-127 H442 M338,-196 L332,-190 L344,-179 L332,-167 L344,-156 L332,-144 L344,-133 L338,-127 M442,-196 L436,-190 L448,-179 L436,-167 L448,-156 L436,-144 L448,-133 L442,-127" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M348,-188 L432,-135 M432,-188 L348,-135" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M390,-186 L428,-162 L390,-137 L352,-162 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M390,-186 L428,-162 L390,-137 L352,-162 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/><circle cx="369" cy="-175" r="6" fill="#F1C400"/><circle cx="369" cy="-148" r="6" fill="#F1C400"/><circle cx="411" cy="-175" r="6" fill="#F1C400"/><circle cx="411" cy="-148" r="6" fill="#F1C400"/></g><g transform="rotate(14.8 500 63)"><rect x="492" y="77" width="16" height="19" fill="#A45C98"/><path d="M498,96 L469,108 L498,138 Z" fill="#A45C98"/><path d="M502,96 L531,108 L502,138 Z" fill="#A45C98"/><rect x="448" y="-17" width="104" height="65" fill="rgba(176,114,166,.10)"/><path d="M448,-17 H552 M448,48 H552 M448,-17 L442,-11 L454,-1 L442,9 L454,20 L442,31 L454,42 L448,48 M552,-17 L546,-11 L558,-1 L546,9 L558,20 L546,31 L558,42 L552,48" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M500,26 V48" stroke="#B072A6" stroke-width="5"/><path d="M450,15 Q500,37 550,15" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="448" y="-82" width="104" height="65" fill="rgba(176,114,166,.10)"/><path d="M448,-82 H552 M448,-17 H552 M448,-82 L442,-77 L454,-66 L442,-55 L454,-44 L442,-33 L454,-22 L448,-17 M552,-82 L546,-77 L558,-66 L546,-55 L558,-44 L546,-33 L558,-22 L552,-17" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M500,-35 V-17" stroke="#B072A6" stroke-width="5"/><path d="M450,-50 Q500,-20 550,-50" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="448" y="-148" width="104" height="65" fill="rgba(255,154,46,.07)"/><path d="M448,-148 H552 M448,-82 H552 M448,-148 L442,-142 L454,-131 L442,-120 L454,-110 L442,-99 L454,-88 L448,-82 M552,-148 L546,-142 L558,-131 L546,-120 L558,-110 L546,-99 L558,-88 L552,-82" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M458,-140 L542,-90 M542,-140 L458,-90" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M500,-138 L538,-115 L500,-92 L462,-115 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M500,-138 L538,-115 L500,-92 L462,-115 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(9.3 610 85)"><rect x="602" y="99" width="16" height="19" fill="#A45C98"/><path d="M608,118 L583,130 L608,160 Z" fill="#A45C98"/><path d="M612,118 L637,130 L612,160 Z" fill="#A45C98"/><rect x="558" y="7" width="104" height="63" fill="rgba(176,114,166,.10)"/><path d="M558,7 H662 M558,70 H662 M558,7 L552,12 L564,22 L552,33 L564,43 L552,54 L564,64 L558,70 M662,7 L656,12 L668,22 L656,33 L668,43 L656,54 L668,64 L662,70" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M610,43 V70" stroke="#B072A6" stroke-width="5"/><path d="M560,38 Q610,48 660,38" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="558" y="-56" width="104" height="63" fill="rgba(176,114,166,.10)"/><path d="M558,-56 H662 M558,7 H662 M558,-56 L552,-50 L564,-40 L552,-29 L564,-19 L552,-8 L564,1 L558,7 M662,-56 L656,-50 L668,-40 L656,-29 L668,-19 L656,-8 L668,1 L662,7" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M610,-13 V7" stroke="#B072A6" stroke-width="5"/><path d="M560,-24 Q610,-2 660,-24" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="558" y="-119" width="104" height="63" fill="rgba(255,154,46,.07)"/><path d="M558,-119 H662 M558,-56 H662 M558,-119 L552,-113 L564,-103 L552,-92 L564,-82 L552,-71 L564,-61 L558,-56 M662,-119 L656,-113 L668,-103 L656,-92 L668,-82 L656,-71 L668,-61 L662,-56" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M568,-111 L652,-64 M652,-111 L568,-64" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M610,-109 L648,-87 L610,-66 L572,-87 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M610,-109 L648,-87 L610,-66 L572,-87 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(6.5 720 99)"><rect x="712" y="113" width="16" height="19" fill="#A45C98"/><path d="M718,132 L706,144 L718,174 Z" fill="#A45C98"/><path d="M722,132 L734,144 L722,174 Z" fill="#A45C98"/><rect x="668" y="22" width="104" height="61" fill="rgba(176,114,166,.10)"/><path d="M668,22 H772 M668,84 H772 M668,22 L662,27 L674,38 L662,48 L674,58 L662,68 L674,78 L668,84 M772,22 L766,27 L778,38 L766,48 L778,58 L766,68 L778,78 L772,84" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M720,48 V84" stroke="#B072A6" stroke-width="5"/><path d="M670,53 Q720,43 770,53" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="668" y="-38" width="104" height="61" fill="rgba(176,114,166,.10)"/><path d="M668,-38 H772 M668,22 H772 M668,-38 L662,-33 L674,-23 L662,-12 L674,-2 L662,7 L674,17 L668,22 M772,-38 L766,-33 L778,-23 L766,-12 L778,-2 L766,7 L778,17 L772,22" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M720,-2 V22" stroke="#B072A6" stroke-width="5"/><path d="M670,-7 Q720,2 770,-7" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="668" y="-99" width="104" height="61" fill="rgba(255,154,46,.07)"/><path d="M668,-99 H772 M668,-38 H772 M668,-99 L662,-94 L674,-84 L662,-74 L674,-63 L662,-53 L674,-43 L668,-38 M772,-99 L766,-94 L778,-84 L766,-74 L778,-63 L766,-53 L778,-43 L772,-38" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M678,-91 L762,-46 M762,-91 L678,-46" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M720,-89 L758,-69 L720,-48 L682,-69 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M720,-89 L758,-69 L720,-48 L682,-69 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(4.2 830 110)"><rect x="822" y="124" width="16" height="19" fill="#A45C98"/><path d="M828,143 L804,155 L828,185 Z" fill="#A45C98"/><path d="M832,143 L856,155 L832,185 Z" fill="#A45C98"/><rect x="778" y="35" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M778,35 H882 M778,95 H882 M778,35 L772,40 L784,50 L772,60 L784,70 L772,80 L784,90 L778,95 M882,35 L876,40 L888,50 L876,60 L888,70 L876,80 L888,90 L882,95" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M830,54 V95" stroke="#B072A6" stroke-width="5"/><path d="M780,65 Q830,43 880,65" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="778" y="-25" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M778,-25 H882 M778,35 H882 M778,-25 L772,-20 L784,-10 L772,0 L784,10 L772,20 L784,30 L778,35 M882,-25 L876,-20 L888,-10 L876,0 L888,10 L876,20 L888,30 L882,35" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M830,0 V35" stroke="#B072A6" stroke-width="5"/><path d="M780,5 Q830,-5 880,5" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="778" y="-85" width="104" height="60" fill="rgba(255,154,46,.07)"/><path d="M778,-85 H882 M778,-25 H882 M778,-85 L772,-80 L784,-70 L772,-60 L784,-50 L772,-40 L784,-30 L778,-25 M882,-85 L876,-80 L888,-70 L876,-60 L888,-50 L876,-40 L888,-30 L882,-25" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M788,-77 L872,-33 M872,-77 L788,-33" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M830,-75 L868,-55 L830,-35 L792,-55 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M830,-75 L868,-55 L830,-35 L792,-55 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(1.3 940 115)"><rect x="932" y="129" width="16" height="19" fill="#A45C98"/><path d="M938,148 L909,160 L938,190 Z" fill="#A45C98"/><path d="M942,148 L971,160 L942,190 Z" fill="#A45C98"/><rect x="888" y="40" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M888,40 H992 M888,100 H992 M888,40 L882,45 L894,55 L882,65 L894,75 L882,85 L894,95 L888,100 M992,40 L986,45 L998,55 L986,65 L998,75 L986,85 L998,95 L992,100" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M940,55 V100" stroke="#B072A6" stroke-width="5"/><path d="M890,70 Q940,40 990,70" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="888" y="-20" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M888,-20 H992 M888,40 H992 M888,-20 L882,-15 L894,-5 L882,5 L894,15 L882,25 L894,35 L888,40 M992,-20 L986,-15 L998,-5 L986,5 L998,15 L986,25 L998,35 L992,40" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M940,-1 V40" stroke="#B072A6" stroke-width="5"/><path d="M890,10 Q940,-12 990,10" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="888" y="-80" width="104" height="60" fill="rgba(255,154,46,.07)"/><path d="M888,-80 H992 M888,-20 H992 M888,-80 L882,-75 L894,-65 L882,-55 L894,-45 L882,-35 L894,-25 L888,-20 M992,-80 L986,-75 L998,-65 L986,-55 L998,-45 L986,-35 L998,-25 L992,-20" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M898,-72 L982,-28 M982,-72 L898,-28" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M940,-70 L978,-50 L940,-30 L902,-50 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M940,-70 L978,-50 L940,-30 L902,-50 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(0.0 1050 115)"><rect x="1042" y="129" width="16" height="19" fill="#A45C98"/><path d="M1048,148 L1019,160 L1048,190 Z" fill="#A45C98"/><path d="M1052,148 L1081,160 L1052,190 Z" fill="#A45C98"/><rect x="998" y="40" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M998,40 H1102 M998,100 H1102 M998,40 L992,45 L1004,55 L992,65 L1004,75 L992,85 L1004,95 L998,100 M1102,40 L1096,45 L1108,55 L1096,65 L1108,75 L1096,85 L1108,95 L1102,100" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1050,55 V100" stroke="#B072A6" stroke-width="5"/><path d="M1000,70 Q1050,40 1100,70" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="998" y="-20" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M998,-20 H1102 M998,40 H1102 M998,-20 L992,-15 L1004,-5 L992,5 L1004,15 L992,25 L1004,35 L998,40 M1102,-20 L1096,-15 L1108,-5 L1096,5 L1108,15 L1096,25 L1108,35 L1102,40" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1050,-5 V40" stroke="#B072A6" stroke-width="5"/><path d="M1000,10 Q1050,-20 1100,10" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="998" y="-80" width="104" height="60" fill="rgba(255,154,46,.07)"/><path d="M998,-80 H1102 M998,-20 H1102 M998,-80 L992,-75 L1004,-65 L992,-55 L1004,-45 L992,-35 L1004,-25 L998,-20 M1102,-80 L1096,-75 L1108,-65 L1096,-55 L1108,-45 L1096,-35 L1108,-25 L1102,-20" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1008,-72 L1092,-28 M1092,-72 L1008,-28" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M1050,-70 L1088,-50 L1050,-30 L1012,-50 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M1050,-70 L1088,-50 L1050,-30 L1012,-50 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(0.0 1160 115)"><rect x="1152" y="129" width="16" height="19" fill="#A45C98"/><path d="M1158,148 L1129,160 L1158,190 Z" fill="#A45C98"/><path d="M1162,148 L1191,160 L1162,190 Z" fill="#A45C98"/><rect x="1108" y="40" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M1108,40 H1212 M1108,100 H1212 M1108,40 L1102,45 L1114,55 L1102,65 L1114,75 L1102,85 L1114,95 L1108,100 M1212,40 L1206,45 L1218,55 L1206,65 L1218,75 L1206,85 L1218,95 L1212,100" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1160,55 V100" stroke="#B072A6" stroke-width="5"/><path d="M1110,70 Q1160,40 1210,70" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="1108" y="-20" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M1108,-20 H1212 M1108,40 H1212 M1108,-20 L1102,-15 L1114,-5 L1102,5 L1114,15 L1102,25 L1114,35 L1108,40 M1212,-20 L1206,-15 L1218,-5 L1206,5 L1218,15 L1206,25 L1218,35 L1212,40" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1160,-5 V40" stroke="#B072A6" stroke-width="5"/><path d="M1110,10 Q1160,-20 1210,10" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="1108" y="-80" width="104" height="60" fill="rgba(255,154,46,.07)"/><path d="M1108,-80 H1212 M1108,-20 H1212 M1108,-80 L1102,-75 L1114,-65 L1102,-55 L1114,-45 L1102,-35 L1114,-25 L1108,-20 M1212,-80 L1206,-75 L1218,-65 L1206,-55 L1218,-45 L1206,-35 L1218,-25 L1212,-20" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1118,-72 L1202,-28 M1202,-72 L1118,-28" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M1160,-70 L1198,-50 L1160,-30 L1122,-50 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M1160,-70 L1198,-50 L1160,-30 L1122,-50 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><g transform="rotate(0.0 1270 115)"><rect x="1262" y="129" width="16" height="19" fill="#A45C98"/><path d="M1268,148 L1239,160 L1268,190 Z" fill="#A45C98"/><path d="M1272,148 L1301,160 L1272,190 Z" fill="#A45C98"/><rect x="1218" y="40" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M1218,40 H1322 M1218,100 H1322 M1218,40 L1212,45 L1224,55 L1212,65 L1224,75 L1212,85 L1224,95 L1218,100 M1322,40 L1316,45 L1328,55 L1316,65 L1328,75 L1316,85 L1328,95 L1322,100" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1270,55 V100" stroke="#B072A6" stroke-width="5"/><path d="M1220,70 Q1270,40 1320,70" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="1218" y="-20" width="104" height="60" fill="rgba(176,114,166,.10)"/><path d="M1218,-20 H1322 M1218,40 H1322 M1218,-20 L1212,-15 L1224,-5 L1212,5 L1224,15 L1212,25 L1224,35 L1218,40 M1322,-20 L1316,-15 L1328,-5 L1316,5 L1328,15 L1316,25 L1328,35 L1322,40" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1270,-5 V40" stroke="#B072A6" stroke-width="5"/><path d="M1220,10 Q1270,-20 1320,10" stroke="#FF9A2E" stroke-width="7" fill="none" stroke-linecap="round"/><rect x="1218" y="-80" width="104" height="60" fill="rgba(255,154,46,.07)"/><path d="M1218,-80 H1322 M1218,-20 H1322 M1218,-80 L1212,-75 L1224,-65 L1212,-55 L1224,-45 L1212,-35 L1224,-25 L1218,-20 M1322,-80 L1316,-75 L1328,-65 L1316,-55 L1328,-45 L1316,-35 L1328,-25 L1322,-20" stroke="#B072A6" stroke-width="5" fill="none" stroke-linejoin="round"/><path d="M1228,-72 L1312,-28 M1312,-72 L1228,-28" stroke="#B072A6" stroke-width="5" stroke-linecap="round"/><path d="M1270,-70 L1308,-50 L1270,-30 L1232,-50 Z" stroke="#0B2652" stroke-width="12" fill="none" stroke-linejoin="round"/><path d="M1270,-70 L1308,-50 L1270,-30 L1232,-50 Z" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linejoin="round"/></g><circle cx="585" cy="131" r="6" fill="#F1C400"/><circle cx="635" cy="131" r="6" fill="#F1C400"/><circle cx="705" cy="144" r="6" fill="#F1C400"/><circle cx="735" cy="144" r="6" fill="#F1C400"/><circle cx="915" cy="157" r="6" fill="#F1C400"/><circle cx="965" cy="157" r="6" fill="#F1C400"/><circle cx="1025" cy="157" r="6" fill="#F1C400"/><circle cx="1075" cy="157" r="6" fill="#F1C400"/><circle cx="1135" cy="157" r="6" fill="#F1C400"/><circle cx="1185" cy="157" r="6" fill="#F1C400"/><circle cx="1245" cy="157" r="6" fill="#F1C400"/><circle cx="1295" cy="157" r="6" fill="#F1C400"/></g><circle cx="907" cy="404" r="15" fill="#001433" stroke="#fff" stroke-width="2.5"/><text x="907" y="411" text-anchor="middle" class="lab" font-size="20" fill="#fff">1</text><circle cx="907" cy="322" r="15" fill="#001433" stroke="#fff" stroke-width="2.5"/><text x="907" y="329" text-anchor="middle" class="lab" font-size="20" fill="#fff">2</text><circle cx="907" cy="263" r="15" fill="#001433" stroke="#fff" stroke-width="2.5"/><text x="907" y="270" text-anchor="middle" class="lab" font-size="20" fill="#fff">3</text><circle cx="652" cy="32" r="14" fill="#001433" stroke="#F1C400" stroke-width="2.5"/><text x="652" y="39" text-anchor="middle" class="lab" font-size="19" fill="#fff">1</text><text x="678" y="34" class="lab" font-size="22" fill="#F1C400">Reversible latching</text><text x="678" y="52" font-size="15" class="dim" dx="0">the healing interface</text><circle cx="652" cy="72" r="14" fill="#001433" stroke="#FF9A2E" stroke-width="2.5"/><text x="652" y="79" text-anchor="middle" class="lab" font-size="19" fill="#fff">2</text><text x="678" y="74" class="lab" font-size="22" fill="#FF9A2E">Bistable cells</text><text x="678" y="92" font-size="15" class="dim" dx="0">store energy</text><circle cx="652" cy="112" r="14" fill="#001433" stroke="#B072A6" stroke-width="2.5"/><text x="652" y="119" text-anchor="middle" class="lab" font-size="19" fill="#fff">3</text><text x="678" y="114" class="lab" font-size="22" fill="#B072A6">Interpenetrating lattices</text><text x="678" y="132" font-size="15" class="dim" dx="0">sense deformation</text><path d="M28,440 V446 H298 V440" stroke="#fff" stroke-width="1.5" fill="none" opacity=".7"/><text x="163" y="472" text-anchor="middle" class="lab" font-size="23" fill="#fff">Separate, dissipate</text><text x="163" y="493" text-anchor="middle" font-size="15" class="dim">unlatching absorbs the insult</text><path d="M319,440 V446 H588 V440" stroke="#fff" stroke-width="1.5" fill="none" opacity=".7"/><text x="453" y="472" text-anchor="middle" class="lab" font-size="23" fill="#fff">Realign, contact</text><text x="453" y="493" text-anchor="middle" font-size="15" class="dim">engaging</text><path d="M609,440 V446 H879 V440" stroke="#F1C400" stroke-width="1.5" fill="none" opacity=".7"/><text x="744" y="472" text-anchor="middle" class="lab" font-size="23" fill="#F1C400">Rebond</text><text x="744" y="493" text-anchor="middle" font-size="15" class="dim">latched, cells relaxed</text><defs><marker id="rz" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#FF9A2E"/></marker></defs><path d="M520,176 Q360,6 172,24" stroke="#001433" stroke-width="13" fill="none" stroke-linecap="round" opacity=".85"/><path d="M520,176 Q360,6 172,24" stroke="#FF9A2E" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#rz)"/><text x="410" y="118" text-anchor="middle" class="lab" font-size="22" fill="#FF9A2E">Restoring energy</text></svg>
+  <div class="it" style="margin-top:14px;font-size:22px;border-left-width:4px;padding-left:16px">Can we program material, interfaces and stored energy so that damage itself starts the healing, again and again?</div>
+</div>
+<div class="abs" style="left:970px;top:236px;width:560px;display:flex;flex-direction:column;gap:12px">
+  <div><div class="k2" style="font-size:18px;margin-bottom:8px">One process, three scales</div><svg class="sch" viewBox="0 0 900 262" aria-label="One process at three scales">
+ <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#68ACE5"/></marker>
+ <marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#F1C400"/></marker></defs>
+ <!-- panel frames -->
+ <g fill="rgba(255,255,255,.04)" stroke="rgba(104,172,229,.35)"><rect x="0" y="0" width="280" height="262" rx="6"/><rect x="310" y="0" width="280" height="262" rx="6"/><rect x="620" y="0" width="280" height="262" rx="6"/></g>
+ <text x="16" y="32" class="lab acc" font-size="34" style="text-transform:none">mm &middot; relatch</text>
+ <text x="326" y="32" class="lab acc" font-size="34" style="text-transform:none">&micro;m &middot; contact</text>
+ <text x="636" y="32" class="lab acc" font-size="34" style="text-transform:none">nm &middot; cold weld</text>
+ <!-- A: snap-fit latch, released then relatched -->
+ <g transform="translate(15,30)"><path d="M0,130 H110 V220 H0 Z M30,130 L40,140 V152 L16,162 V196 H94 V162 L70,152 V140 L80,130 Z" fill="#8FA3BF" fill-rule="evenodd"/><rect x="-8" y="20" width="110" height="30" fill="#A45C98"/><rect x="39" y="50" width="16" height="10" fill="#A45C98"/><path d="M45,60 L16,72 L45,102 Z" fill="#A45C98"/><path d="M49,60 L78,72 L49,102 Z" fill="#A45C98"/><path d="M140,130 H250 V220 H140 Z M170,130 L180,140 V152 L156,162 V196 H234 V162 L210,152 V140 L220,130 Z" fill="#8FA3BF" fill-rule="evenodd"/><rect x="140" y="100" width="110" height="30" fill="#A45C98"/><rect x="187" y="130" width="16" height="18" fill="#A45C98"/><path d="M193,148 L164,160 L193,190 Z" fill="#A45C98"/><path d="M197,148 L226,160 L197,190 Z" fill="#A45C98"/><circle cx="170" cy="157" r="5" fill="#F1C400"/><circle cx="220" cy="157" r="5" fill="#F1C400"/><path d="M108,70 C125,60 135,70 146,88" stroke="#68ACE5" stroke-width="3" fill="none" marker-end="url(#ar)"/></g>
+ <!-- B: rough surfaces meeting at asperities -->
+ <g transform="translate(330,84)">
+  <path d="M0,0 H240 V70 L225,82 L210,72 L192,90 L176,74 L158,86 L140,70 L122,92 L104,76 L86,88 L68,72 L50,90 L32,76 L16,86 L0,74 Z" fill="#A45C98" opacity=".95"/>
+  <path d="M0,180 H240 V100 L226,92 L210,104 L192,90 L174,100 L158,86 L142,98 L122,92 L106,104 L86,88 L70,100 L50,90 L32,102 L16,94 L0,104 Z" fill="#8FA3BF"/>
+  <g fill="#F1C400"><circle cx="192" cy="90" r="5"/><circle cx="122" cy="92" r="5"/><circle cx="50" cy="90" r="5"/><circle cx="158" cy="86" r="5"/><circle cx="86" cy="88" r="5"/></g>
+  <path d="M-6,30 h0" />
+ </g>
+ <!-- C: atoms across a crack, oxide broken, welding -->
+ <g transform="translate(640,52)">
+  <circle cx="14" cy="14" r="10" fill="#A45C98"/><circle cx="42" cy="28" r="10" fill="#A45C98"/><circle cx="70" cy="14" r="10" fill="#A45C98"/><circle cx="98" cy="28" r="10" fill="#A45C98"/><circle cx="126" cy="14" r="10" fill="#A45C98"/><circle cx="154" cy="28" r="10" fill="#A45C98"/><circle cx="182" cy="14" r="10" fill="#A45C98"/><circle cx="210" cy="28" r="10" fill="#A45C98"/><circle cx="238" cy="14" r="10" fill="#A45C98"/><circle cx="14" cy="42" r="10" fill="#A45C98"/><circle cx="42" cy="56" r="10" fill="#A45C98"/><circle cx="70" cy="42" r="10" fill="#A45C98"/><circle cx="98" cy="56" r="10" fill="#A45C98"/><circle cx="126" cy="42" r="10" fill="#A45C98"/><circle cx="154" cy="56" r="10" fill="#A45C98"/><circle cx="182" cy="42" r="10" fill="#A45C98"/><circle cx="210" cy="56" r="10" fill="#A45C98"/><circle cx="238" cy="42" r="10" fill="#A45C98"/><circle cx="14" cy="70" r="10" fill="#A45C98"/><circle cx="42" cy="84" r="10" fill="#A45C98"/><circle cx="70" cy="70" r="10" fill="#A45C98"/><circle cx="98" cy="84" r="10" fill="#A45C98"/><circle cx="126" cy="70" r="10" fill="#F1C400"/><circle cx="154" cy="84" r="10" fill="#F1C400"/><circle cx="182" cy="70" r="10" fill="#A45C98"/><circle cx="210" cy="84" r="10" fill="#A45C98"/><circle cx="238" cy="70" r="10" fill="#A45C98"/><circle cx="42" cy="140" r="10" fill="#8FA3BF"/><circle cx="98" cy="140" r="10" fill="#8FA3BF"/><circle cx="154" cy="140" r="10" fill="#F1C400"/><circle cx="210" cy="140" r="10" fill="#8FA3BF"/><circle cx="14" cy="154" r="10" fill="#8FA3BF"/><circle cx="42" cy="168" r="10" fill="#8FA3BF"/><circle cx="70" cy="154" r="10" fill="#8FA3BF"/><circle cx="98" cy="168" r="10" fill="#8FA3BF"/><circle cx="126" cy="154" r="10" fill="#F1C400"/><circle cx="154" cy="168" r="10" fill="#8FA3BF"/><circle cx="182" cy="154" r="10" fill="#8FA3BF"/><circle cx="210" cy="168" r="10" fill="#8FA3BF"/><circle cx="238" cy="154" r="10" fill="#8FA3BF"/><circle cx="14" cy="182" r="10" fill="#8FA3BF"/><circle cx="42" cy="196" r="10" fill="#8FA3BF"/><circle cx="70" cy="182" r="10" fill="#8FA3BF"/><circle cx="98" cy="196" r="10" fill="#8FA3BF"/><circle cx="126" cy="182" r="10" fill="#8FA3BF"/><circle cx="154" cy="196" r="10" fill="#8FA3BF"/><circle cx="182" cy="182" r="10" fill="#8FA3BF"/><circle cx="210" cy="196" r="10" fill="#8FA3BF"/><circle cx="238" cy="182" r="10" fill="#8FA3BF"/><g fill="#F1C400"><circle cx="126" cy="112" r="10"/><circle cx="154" cy="106" r="10"/></g>
+  <path d="M10,112 C60,106 90,118 112,112" stroke="#CF4520" stroke-width="4" stroke-dasharray="9 7" fill="none"/>
+  <path d="M168,112 C190,108 215,116 248,112" stroke="#CF4520" stroke-width="4" stroke-dasharray="9 7" fill="none"/>
+ </g>
+ </svg>
+    <div class="cap" style="font-size:14.5px">Relatching and cold welding are the same four steps at two scales. We design the capture range, the contact pressure and the surface state.</div></div>
+  <div style="display:grid;grid-template-columns:210px 1fr;gap:16px;align-items:start;margin-top:4px">
+    <div><div class="plt" style="padding:4px"><img src="assets/kinematic-metal-healing/img-bolmin-tslot-600.jpg" alt="Snapping T-slot interlocking unit cells"></div>
+      <div class="cap"><b>Interlocking metasurfaces</b> that snap and release.<br>Figure: <a href="https://doi.org/10.1088/1748-3190/adadbb" target="_blank" rel="noopener">Bolmin, Noell and Boyce, Bioinspir. Biomim. 20, 026022 (2025), CC BY 4.0</a>, Fig. 6</div></div>
+    <div><div class="plt" style="padding:5px"><img src="assets/kinematic-metal-healing/img-alrashed-ipl-900.jpg" alt="Interpenetrating lattice unit cell and microscale specimen"></div>
+      <div class="cap"><b>Interpenetrating lattices</b> printed at 20 &micro;m scale: two networks share one volume without fusing. Figure: <a href="https://doi.org/10.1038/s44455-026-00035-8" target="_blank" rel="noopener">Alrashed et al., npj Metamaterials 2, 21 (2026)</a>, Fig. 1B</div></div>
+  </div>
+</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">3 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s3b"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2">Self-sensing &middot; Topic 16 area (d): sense the damage, then trigger the repair</div>
+  <div class="hh">Healing starts with sensing, <span class="acc">at the interface</span></div>
+</div>
+<div class="abs" style="left:80px;top:196px;width:690px;display:flex;flex-direction:column;gap:14px">
+  <div class="k2" style="font-size:19px;color:#fff">In biology</div>
+  <div class="bio3">
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-slit-sem-700.jpg')"></div><div class="tt">Spider slit organs</div>
+      <div class="tx">Slits in the exoskeleton work as strain gauges: nature uses cracks as sensors.</div>
+      <div class="src">SEM, <i>Cupiennius salei</i>, 50 &micro;m scale bar. Figure: <a href="https://doi.org/10.1038/nature08603" target="_blank" rel="noopener">Fratzl and Barth, Nature 462, 442 (2009)</a>, Fig. 1c</div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-campaniform-top-800.jpg')"></div><div class="tt">Campaniform sensilla</div>
+      <div class="tx">Domes in insect cuticle read strain on legs and wings, right where the load path runs.</div>
+      <div class="src">Fruit-fly leg, 2 &micro;m scale bar. SEM: <a href="https://commons.wikimedia.org/wiki/File:Campaniforms.tif" target="_blank" rel="noopener">Hokuba, CC BY-SA 4.0, Wikimedia Commons</a></div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-osteocyte-crop-800.jpg')"></div><div class="tt">Bone osteocytes</div>
+      <div class="tx">Cells buried in bone sense strain and microdamage, and signal where to remodel.</div>
+      <div class="src">STEM: <a href="https://commons.wikimedia.org/wiki/File:STEM_HAADF_electron_image_of_a_maturing_osteocyte_near_the_bone_surface,_above_a_layer_of_osteoblast_cells.tif" target="_blank" rel="noopener">Woahbear, CC BY-SA 4.0, Wikimedia Commons</a> &middot; Repair signal: <a href="https://doi.org/10.1038/nmat1866" target="_blank" rel="noopener">Taylor et al., Nat. Mater. 6, 263 (2007)</a></div></figure>
+  </div>
+  <div class="it" style="font-size:22px">Living materials put the sensor where damage starts, and use it to trigger the repair.</div>
+</div>
+<div class="abs" style="left:820px;top:196px;width:710px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2" style="font-size:19px;color:#fff">In architected metal</div>
+  <div><div class="plt" style="padding:5px"><img src="assets/kinematic-metal-healing/img-white-touch-1100.jpg" alt="A printed metal interpenetrating lattice reading resistance as objects touch it"></div>
+    <div class="cap"><b>The lattice is the sensor.</b> Two printed metal sub-lattices, interwoven but not touching, read what touches them: over 10 M&Omega; with nothing, over 800 k&Omega; under a fingertip, 36 &Omega; for a screw, 7 &Omega; for a metal cylinder. Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 10a</div></div>
+  <div style="display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:start">
+    <div class="plt" style="padding:4px"><img src="assets/kinematic-metal-healing/img-white-res-500.jpg" alt="Simulated resistance against displacement between sub-lattices"></div>
+    <div class="st3" style="gap:22px">
+      <div><div class="n">10<small>orders</small></div><div class="l" style="max-width:none">fall in resistance as one sub-lattice slides into contact with the other, simulated (left)<span class="src">Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 4</span></div></div>
+      <div><div class="n">85&rarr;148<small>pF</small></div><div class="l" style="max-width:none">capacitance across the gap as humidity rises from about 5% to 95%, read from the plot<span class="src">Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 9a</span></div></div>
+    </div>
+  </div>
+</div>
+<div class="abs" style="left:80px;right:70px;top:742px">
+  <div class="snb"><div class="bt">In this program</div>
+    <div class="chips"><span><b>Latches switch:</b> resistance steps read each cell's state</span><span><b>Cells click:</b> each acoustic signal locates its event</span><span><b>Memory cells count:</b> the remaining healing budget</span><span><b>H7:</b> internal state read from boundary signals</span></div></div>
+</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">4 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s4"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2">Hypothesis &middot; why it will succeed, and how it could fail</div>
+  <div class="hh">Recurrent healing is set by <span class="acc">geometry, not chemistry</span></div>
+</div>
+<div class="abs" style="left:60px;top:212px;width:730px"><svg class="sch" viewBox="0 0 700 560" aria-label="Healing regime map">
+ <defs><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fff"/></marker></defs>
+ <rect x="100.0" y="40.0" width="285.0" height="215.0" fill="rgba(241,196,0,.20)"/>
+ <rect x="385.0" y="40.0" width="285.0" height="215.0" fill="rgba(207,69,32,.16)"/>
+ <rect x="100.0" y="255.0" width="285.0" height="215.0" fill="rgba(164,92,152,.18)"/>
+ <rect x="385.0" y="255.0" width="285.0" height="215.0" fill="rgba(255,255,255,.05)"/>
+ <path d="M385.0,40.0 V470 M100,255.0 H670.0" stroke="#fff" stroke-width="2.5" stroke-dasharray="10 7"/>
+ <path d="M100,40 V470 H670.0" stroke="#A9B9D0" stroke-width="2" fill="none"/>
+ <text x="242.5" y="112" text-anchor="middle" class="lab gold" font-size="32">Heals recurrently</text>
+ <text x="242.5" y="142" text-anchor="middle" font-size="16" fill="#fff">full recovery, no ratcheting (H1)</text>
+ <text x="527.5" y="112" text-anchor="middle" class="lab red" font-size="26">Metal ratchets</text>
+ <text x="527.5" y="140" text-anchor="middle" font-size="15" class="dim">recovery decays each insult (H2)</text>
+ <text x="242.5" y="350" text-anchor="middle" class="lab" font-size="26" fill="#C98BBF">Fails to reset</text>
+ <text x="242.5" y="378" text-anchor="middle" font-size="15" class="dim">parts stick or stay latched (H2)</text>
+ <text x="527.5" y="350" text-anchor="middle" class="lab dim" font-size="24">Both fail</text>
+ <text x="385.0" y="494" text-anchor="middle" font-size="16" fill="#fff">1</text><text x="96" y="260.0" text-anchor="end" font-size="16" fill="#fff">1</text>
+ <text x="385" y="530" text-anchor="middle" font-size="18" fill="#C9D6E8"><tspan class="acc" font-weight="bold" font-size="22">&#955;</tspan><tspan class="acc" font-weight="bold" font-size="14" dy="5">S</tspan><tspan dy="-5"> = peak local strain / shakedown limit</tspan></text>
+ <text transform="translate(44,255) rotate(-90)" text-anchor="middle" font-size="18" fill="#C9D6E8"><tspan class="acc" font-weight="bold" font-size="22">&#955;</tspan><tspan class="acc" font-weight="bold" font-size="14" dy="5">R</tspan><tspan dy="-5"> = stored reset energy / reset work</tspan></text>
+ <text x="403.0" y="190" font-size="15" fill="#fff">every mechanism should</text><text x="403.0" y="210" font-size="15" fill="#fff">fall on these same</text><text x="403.0" y="230" font-size="15" fill="#fff">two lines (H3)</text>
+</svg></div>
+<div class="abs" style="left:840px;top:218px;width:690px;display:flex;flex-direction:column;gap:14px">
+  <div style="width:560px"><svg class="sch" viewBox="0 0 560 300" aria-label="Healing budget schematic">
+ <path d="M60,2 V250 H540" stroke="#A9B9D0" stroke-width="2" fill="none"/>
+ <path d="M60,40 H540" stroke="rgba(255,255,255,.35)" stroke-width="1.5" stroke-dasharray="2 5"/>
+ <path d="M60,40 C150,22 300,12 540,9" stroke="#C98BBF" stroke-width="4.5" fill="none"/>
+ <text x="545" y="13" font-size="14" fill="#C98BBF">self-enhancing (S1)</text>
+ <text x="330" y="34" text-anchor="middle" font-size="13" font-style="italic" fill="#C98BBF">ideal bio-inspired response</text>
+ <path d="M60,150 H540" stroke="#CF4520" stroke-width="2" stroke-dasharray="8 6"/>
+ <text x="536" y="144" text-anchor="end" font-size="14" class="red">replace the module</text>
+ <path d="M60,40 C200,44 380,52 540,66" stroke="#F1C400" stroke-width="4" fill="none"/>
+ <path d="M60,40 C180,52 330,80 540,120" stroke="#68ACE5" stroke-width="4" fill="none"/>
+ <path d="M60,40 C130,80 200,150 300,190 C380,215 460,226 540,232" stroke="#fff" stroke-width="3" stroke-dasharray="3 0" fill="none" opacity=".75"/>
+ <text x="545" y="62" font-size="14" class="gold">with cold welding (H6)</text>
+ <text x="545" y="118" font-size="14" class="acc">inside the regime</text>
+ <text x="545" y="236" font-size="14" fill="#fff">no longer fit-for-service</text>
+ <circle cx="232" cy="150" r="7" fill="#fff"/><path d="M232,150 V250" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 4"/>
+ <text x="232" y="270" text-anchor="middle" font-size="14" fill="#fff">healing budget (H4)</text>
+ <text x="300" y="294" text-anchor="middle" font-size="15" fill="#C9D6E8">number of insults &rarr;</text>
+ <text transform="translate(26,135) rotate(-90)" text-anchor="middle" font-size="14" fill="#C9D6E8">recovered stiffness and strength</text>
+ <text x="70" y="244" font-size="12" class="dim">Schematic, not data</text>
+</svg></div>
+  <div class="rk">
+    <div class="rkr"><div class="q"><b>Healing or just recovery?</b>Does the architecture restore damaged material, not only its shape?</div><div class="h">H6<small>cold welding raises the budget</small></div></div>
+    <div class="rkr"><div class="q"><b>Surface chemistry</b>Can metal faces rebond through oxide, in air and then in seawater?</div><div class="h">H5<small>one resealing map, both scales</small></div></div>
+    <div class="rkr"><div class="q"><b>Healing exhaustion</b>How many insults before healing runs out, and can we predict it?</div><div class="h">H4, H12<small>predicted before testing</small></div></div>
+  </div>
+  <div class="src" style="font-size:14px">Stretch goal (S1): get stronger after insult, as bone does under load. H numbers refer to the benchmark table in the concept paper.</div>
+</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">5 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s5"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2">Approach &middot; four thrusts, three specimen scales, sensing built in</div>
+  <div class="hh">One model system, <span class="acc">tested from polymer pilots to printed metal</span></div>
+</div>
+<div class="abs" style="left:70px;top:226px;width:640px"><svg class="sch" viewBox="0 0 640 560" aria-label="Four thrusts around one model system">
+ <defs><marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#68ACE5"/></marker></defs>
+ <circle cx="320" cy="285" r="185" fill="none" stroke="rgba(104,172,229,.35)" stroke-width="3" stroke-dasharray="2 10"/>
+ <path d="M440,150 A185,185 0 0 1 500,240" stroke="#68ACE5" stroke-width="4" fill="none" marker-end="url(#ar3)"/>
+ <path d="M490,360 A185,185 0 0 1 420,440" stroke="#68ACE5" stroke-width="4" fill="none" marker-end="url(#ar3)"/>
+ <path d="M210,440 A185,185 0 0 1 140,360" stroke="#68ACE5" stroke-width="4" fill="none" marker-end="url(#ar3)"/>
+ <path d="M140,220 A185,185 0 0 1 200,140" stroke="#68ACE5" stroke-width="4" fill="none" marker-end="url(#ar3)"/>
+ <circle cx="320" cy="285" r="92" fill="rgba(241,196,0,.12)" stroke="#F1C400" stroke-width="2.5"/>
+ <text x="320" y="270" text-anchor="middle" class="lab gold" font-size="26">The healing</text>
+ <text x="320" y="298" text-anchor="middle" class="lab gold" font-size="26">joint</text>
+ <text x="320" y="324" text-anchor="middle" font-size="14" fill="#fff">one model system</text>
+ <g transform="translate(195,30)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">1</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Conceive</text><text x="14" y="60" font-size="15" class="gold">Boyce, Bolmin</text><text x="14" y="82" font-size="14" class="dim">cells, latches, cold-weld paths</text></g><g transform="translate(390,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">2</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Analyze</text><text x="14" y="60" font-size="15" class="gold">Ghosh, with Bolmin</text><text x="14" y="82" font-size="14" class="dim">wear, fatigue, latch dynamics</text></g><g transform="translate(195,444)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">3</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Optimize</text><text x="14" y="60" font-size="15" class="gold">Guest</text><text x="14" y="82" font-size="14" class="dim">margin in both ratios</text></g><g transform="translate(0,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">4</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Build, measure</text><text x="14" y="60" font-size="15" class="gold">Babu, Portela</text><text x="14" y="82" font-size="14" class="dim">specimens, slow loading to shock</text></g>
+</svg></div>
+<div class="abs" style="left:760px;top:222px;width:770px;display:flex;flex-direction:column;gap:2px">
+  <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-kai-render-900.jpg')"></div><div><div class="tn"><span>Tier 1</span>Polymer microlattices</div><div class="td">Two-photon prints, hundreds per chip: reset, relatching, capture range. Read out with laser-induced vibrations. <i>Year 1 milestone.</i></div><div class="src">Figure: <a href="https://doi.org/10.1038/s41586-023-06652-x" target="_blank" rel="noopener">Kai et al., Nature 623, 514 (2023)</a>, Fig. 1a</div></div></div>
+  <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-barr-notch-900.jpg')"></div><div><div class="tn"><span>Tier 2</span>Metal microlattices</div><div class="td">Small-scale metal, where size effects and cold welding are strongest. <i>Opportunistic: no core benchmark depends on it.</i></div><div class="src">Nanoscale metal fatigue specimen: Figure: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>, Fig. 1a</div></div></div>
+  <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-bolmin-truss-800.jpg')"></div><div><div class="tn"><span>Tier 3</span>Printed metal joints</div><div class="td">Millimeter-scale metal additive manufacturing: both ratios, cold welding and the healing budget, in air then seawater.</div><div class="src">Concept render of interlocking truss joints: Figure: <a href="https://doi.org/10.1088/1748-3190/adadbb" target="_blank" rel="noopener">Bolmin, Noell and Boyce, Bioinspir. Biomim. 20, 026022 (2025), CC BY 4.0</a>, Fig. 6</div></div></div>
+  <div class="chips" style="margin-top:12px"><span><b>Sensing in every tier:</b> resistance, acoustic clicks and memory cells, read against H7 (slide 4)</span></div>
+  <div class="src" style="font-size:14px;margin-top:6px">Every prediction has a pass/fail benchmark. Example, H1: at least 95% of undamaged stiffness and strength after 1,000 insults (proposed threshold, concept paper benchmark table).</div>
+</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">6 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s6"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2">Team, milestones and cost</div>
+  <div class="hh">Six investigators, four institutions, <span class="acc">intentional career development</span></div>
+</div>
+<div class="abs" style="left:80px;top:218px;width:840px;display:flex;flex-direction:column;height:610px;justify-content:space-between">
+  <div class="tm"><div class="tmc"><div class="face" style="background-image:url('assets/kinematic-metal-healing/team-boyce-sq-240.jpg')"></div><div><div class="nm">Boyce</div><div class="in">JHU &middot; lead PI &middot; Thrust 1</div><div class="cp">Crack healing, interpenetrating lattices, interlocking metasurfaces</div></div></div><div class="tmc"><div class="face" style="background-image:url('assets/kinematic-metal-healing/team-ghosh-sq-240.jpg')"></div><div><div class="nm">Ghosh</div><div class="in">JHU &middot; Thrust 2</div><div class="cp">Multiscale modeling of fatigue and failure in metals</div></div></div><div class="tmc"><div class="face" style="background-image:url('assets/kinematic-metal-healing/team-guest-sq-240.jpg')"></div><div><div class="nm">Guest</div><div class="in">JHU &middot; Thrust 3</div><div class="cp">Topology optimization of architected materials</div></div></div><div class="tmc"><div class="face" style="background-image:url('assets/kinematic-metal-healing/team-babu-sq-240.jpg')"></div><div><div class="nm">Babu</div><div class="in">UMD &middot; Thrust 4</div><div class="cp">Metal additive manufacturing, welding metallurgy</div></div></div><div class="tmc early"><div class="face" style="background-image:url('assets/kinematic-metal-healing/team-bolmin-sq-240.jpg')"></div><div><div class="nm">Bolmin</div><div class="in">CMU &middot; Thrusts 1, 2</div><div class="cp">Biological latches and interlocking metasurfaces</div></div></div><div class="tmc early"><div class="face" style="background-image:url('assets/kinematic-metal-healing/team-portela-sq-240.jpg')"></div><div><div class="nm">Portela</div><div class="in">MIT &middot; Thrust 4</div><div class="cp">Microlattices, impact and laser vibration testing</div></div></div></div>
+  <div class="band"><div class="bt">Career<br>development</div><div class="bd"><b>Bolmin</b> (assistant professor) and <b>Portela</b> (associate professor) lead thrust work early in their careers. <b>Boyce</b> brings 25 years at national laboratories, outside ONR's usual community, and is now building a university program.</div></div>
+  <div class="src" style="font-size:16px;line-height:1.4">Existing collaborations: Ghosh and Guest lead the JHU center CISMMS together; Bolmin and Boyce co-authored the 2025 interlocking-metasurface taxonomy.<div style="font-size:12.5px;margin-top:4px">Photos: Boyce: provided by Brad Boyce &middot; Ghosh: <a href="https://commons.wikimedia.org/wiki/File:Somnath_Ghosh.jpg" target="_blank" rel="noopener">George Weber, CC BY 2.0, Wikimedia Commons</a> &middot; Guest: provided by Brad Boyce &middot; Babu: <a href="https://eng.umd.edu/clark/faculty/1959/Sudarsanam-Suresh-Babu" target="_blank" rel="noopener">University of Maryland Clark School</a> &middot; Bolmin: <a href="https://meche.engineering.cmu.edu/directory/bios/bolmin-ophelia.html" target="_blank" rel="noopener">Carnegie Mellon Mechanical Engineering</a> &middot; Portela: <a href="https://meche.mit.edu/people/faculty/cportela@mit.edu" target="_blank" rel="noopener">MIT Mechanical Engineering</a></div></div>
+</div>
+<div class="abs" style="left:970px;top:218px;width:560px;display:flex;flex-direction:column;height:610px;justify-content:space-between">
+  <div><svg class="sch" viewBox="0 0 560 330" aria-label="Five-year plan"><text x="191" y="22" text-anchor="middle" class="lab acc" font-size="22">Y1</text><text x="273" y="22" text-anchor="middle" class="lab acc" font-size="22">Y2</text><text x="355" y="22" text-anchor="middle" class="lab acc" font-size="22">Y3</text><text x="437" y="22" text-anchor="middle" class="lab acc" font-size="22">Y4</text><text x="519" y="22" text-anchor="middle" class="lab acc" font-size="22">Y5</text><path d="M150,34 V318" stroke="rgba(255,255,255,.10)"/><path d="M232,34 V318" stroke="rgba(255,255,255,.10)"/><path d="M314,34 V318" stroke="rgba(255,255,255,.10)"/><path d="M396,34 V318" stroke="rgba(255,255,255,.10)"/><path d="M478,34 V318" stroke="rgba(255,255,255,.10)"/><path d="M560,34 V318" stroke="rgba(255,255,255,.10)"/><text x="0" y="72" font-size="15" fill="#E8EEF6">Tier 1 polymer pilots</text><rect x="154" y="52" width="156" height="28" rx="5" fill="#68ACE5" opacity=".9"/><text x="0" y="126" font-size="15" fill="#E8EEF6">Tier 2 metal microlattices</text><rect x="236" y="106" width="238" height="28" rx="5" fill="none" stroke="#68ACE5" stroke-width="2.5" stroke-dasharray="7 6"/><text x="0" y="180" font-size="15" fill="#E8EEF6">Tier 3 printed metal joints</text><rect x="236" y="160" width="320" height="28" rx="5" fill="#2B7FD9" opacity=".9"/><text x="0" y="234" font-size="15" fill="#E8EEF6">Models: budget, rate, size</text><rect x="207" y="214" width="266" height="28" rx="5" fill="#A45C98" opacity=".9"/><text x="0" y="288" font-size="15" fill="#E8EEF6">Prediction test</text><rect x="441" y="268" width="115" height="28" rx="5" fill="#F1C400" opacity=".9"/><path d="M227,52 l10,10 l-10,10 l-10,-10 z" fill="#fff" transform="translate(0,4)"/><text x="211" y="98" text-anchor="end" font-size="13.5" fill="#fff">regime map (H1, H5)</text><path d="M387,160 l10,10 l-10,10 l-10,-10 z" fill="#fff" transform="translate(0,4)"/><text x="371" y="206" text-anchor="end" font-size="13.5" fill="#fff">cold-weld test (H6)</text><path d="M527,268 l10,10 l-10,10 l-10,-10 z" fill="#fff" transform="translate(0,4)"/><text x="511" y="314" text-anchor="end" font-size="13.5" fill="#fff">predict, then verify (H12)</text><text x="0" y="22" font-size="14" class="dim">dashed: opportunistic</text></svg></div>
+  <div class="mx"><div>Recovered stiffness and strength</div><div>Restored interface integrity</div><div>Healing rate</div><div>Healing capacity kept over insults</div></div>
+  <div class="cost"><div class="n">$7.5M</div><div class="d">over 5 years: a $4.5M three-year base and a $3.0M two-year option, about $1.5M per year<div class="src">Source: FY27 MURI NOFO N0001426SF002, ONR recommended funding profile</div></div></div>
+</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">7 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<section class="slide s7"><div class="bg" role="img" aria-label="Waves crash over the bow of the destroyer USS Barry in heavy seas" style="background-image:url('assets/kinematic-metal-healing/commons-barry-bow-2100.jpg');background-position:0% 78%;background-size:150% auto"></div><div class="scr"></div>
+<div class="abs" style="left:80px;top:64px;width:640px;display:flex;flex-direction:column;gap:18px">
+  <div class="k2">Who cares &middot; what changes for the Navy</div>
+  <div class="hh">Structures that take a hit at sea <span class="acc">and heal on their own</span></div>
+  <div class="ld">The deliverable is the science, not a component: design rules that let a printed metal part heal a predicted number of times, and report how many remain.</div>
+  <div class="pay">
+    <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 9h6v-3h6v3h6v6h-6v3h-6v-3h-6z" fill="none" stroke="#68ACE5" stroke-width="2"/></svg></div><div class="t"><b>Joints that heal, release and rejoin,</b> for modular payloads, field repair and parts too large to print in one piece</div></div>
+    <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M2 14c3 0 3-3 6-3s3 3 6 3 3-3 6-3M2 19c3 0 3-3 6-3s3 3 6 3 3-3 6-3" fill="none" stroke="#68ACE5" stroke-width="2"/></svg></div><div class="t"><b>Shock, slamming and fatigue</b> absorbed and recovered from, without a shipyard</div></div>
+    <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0" fill="none" stroke="#68ACE5" stroke-width="2"/><path d="M12 17l4-6" stroke="#F1C400" stroke-width="2.5"/></svg></div><div class="t"><b>Parts that report their own damage</b> and how many more times they can heal, so they are replaced when worn, not on a fixed schedule</div></div>
+    <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" fill="none" stroke="#68ACE5" stroke-width="2"/></svg></div><div class="t"><b>Transition partners:</b> NSWC Carderock and NRL</div></div>
+  </div>
+</div>
+<div class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:US_Navy_050402-N-6363M-027_Waves_crash_over_the_bow_of_the_Arleigh-Burke-class_guided_missile_destroyer_USS_Barry_(DDG_52)_as_she_plows_through_heavy_seas_while_underway_in_the_Mediterranean_Sea.jpg" target="_blank" rel="noopener">U.S. Navy photo by Photographer’s Mate Airman Philip V. Morrill, public domain, Wikimedia Commons</a></div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">8 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+</div></div>
+<div class="hud2" id="hud"></div>
+<script>
+const S=[...document.querySelectorAll('.slide')], st=document.getElementById('stage'), hud=document.getElementById('hud');
+const all=new URLSearchParams(location.search).has('all');
+let i=Math.max(0,Math.min(S.length-1,(parseInt(location.hash.slice(1))||1)-1));
+function fit(){if(all)return;const k=Math.min(innerWidth/1600,innerHeight/900);st.style.transform='translate('+((innerWidth-1600*k)/2)+'px,'+((innerHeight-900*k)/2)+'px) scale('+k+')';}
+function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('active',j===i));history.replaceState(null,'','#'+(i+1)+(all?'':''));hud.textContent=(i+1)+' / '+S.length;}
+if(all){document.body.classList.add('all');S.forEach(s=>s.classList.add('active'));}else{show(i);fit();addEventListener('resize',fit);
+ addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){show(i+1);e.preventDefault();}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){show(i-1);e.preventDefault();}
+  else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}});
+ st.addEventListener('click',e=>{if(e.target.closest('a'))return;show(e.clientX>innerWidth/2?i+1:i-1);});}
+</script>
+</body>
+</html>
