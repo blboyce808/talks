@@ -917,15 +917,33 @@ body.all .hud2{display:none}
 .s1 .gap3.tight .gc .t{font-size:19px}
 
 /* slide 1: press clips for the platinum Nature paper */
-.press{display:grid;grid-template-columns:520px 1fr;gap:22px;align-items:center}
-.press .clips{position:relative;height:200px}
-.press .clips img{position:absolute;height:190px;width:auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.6))}
+.press{display:flex;flex-direction:column;gap:8px}
+.press .clips{position:relative;height:256px}
+.press .clips img{position:absolute;height:240px;width:auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.6))}
 .press .pl .t{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);line-height:1.15;margin-bottom:8px}
 
 /* slide 1: partner university wordmarks beside the JHU logo */
-.partners{position:absolute;left:222px;bottom:16px;height:44px;display:flex;align-items:center;gap:30px;padding-left:26px;border-left:1px solid rgba(243,241,236,.35);z-index:45;pointer-events:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.partners{position:absolute;left:222px;bottom:16px;height:44px;display:flex;align-items:center;gap:18px;padding-left:24px;border-left:1px solid rgba(243,241,236,.35);z-index:45;pointer-events:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
 .partners img{display:block;width:auto}
 .partners .umd{height:33px}.partners .cmu{height:19px}.partners .mit{height:36px}
+
+/* slide 1: gap cards side by side under the graph; peer-review flag on the graph caption */
+.s1 .gap3.gaprow{grid-template-columns:repeat(3,1fr);gap:18px}
+.s1 .gap3.gaprow .gc .d{font-size:15px;line-height:1.32}
+.s1 .gap3.gaprow .gc .t{font-size:19px}
+.s1 .cap .peer{color:var(--gold);font-weight:700;font-style:italic}
+.s1 .gap3.gaprow .gc{align-content:start}
+
+/* slide 2: biological term and exemplar species under each example */
+.trio .sp{font-size:15px;line-height:1.3;color:var(--gold);margin:2px 0 3px}
+.trio .sp b{font-weight:700}
+.s3b .bio3 .im{height:290px}
+
+/* slide 5: three core scientific questions */
+.cq ol{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;counter-reset:q}
+.cq li{counter-increment:q;display:grid;grid-template-columns:30px 1fr;column-gap:10px;font-size:18px;line-height:1.35;color:var(--ink);background:rgba(104,172,229,.08);border-left:3px solid var(--amber);padding:9px 14px 9px 10px}
+.cq li::before{content:counter(q);font-family:var(--display);font-weight:800;font-size:28px;line-height:1;color:var(--amber);grid-row:span 2}
+.cq li b{color:#fff}
 
 </style>
 </head>
@@ -938,33 +956,31 @@ body.all .hud2{display:none}
   <div class="ld" style="font-size:25px">A metal under load either deforms or fractures, and both are permanent. Then, inside an electron microscope, we watched a fatigue crack in platinum <b>weld itself shut</b>. Now, in gold, cracks heal <b>nearly as often as they grow</b>.<div class="src" style="font-size:13px;margin-top:8px">Platinum: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>. Gold: Baker et al., in review at Nature Communications.</div></div>
   <div class="press">
     <div class="clips">
-      <img src="assets/kinematic-metal-healing/press-news-sciam.png" style="left:0;top:6px;transform:rotate(-3deg)" alt="Scientific American: Some metals mysteriously heal their own cracks">
-      <img src="assets/kinematic-metal-healing/press-news-daily.png" style="left:158px;top:0;transform:rotate(2deg)" alt="Daily Beast: Scientists say Terminator-style self-healing metal is real">
-      <img src="assets/kinematic-metal-healing/press-news-fast.png" style="left:334px;top:8px;transform:rotate(-1.5deg)" alt="Fast Company: Scientists discovered metal can heal itself, and it is as sci-fi as it sounds">
+      <img src="assets/kinematic-metal-healing/press-news-sciam.png" style="left:0;top:8px;transform:rotate(-3deg)" alt="Scientific American: Some metals mysteriously heal their own cracks">
+      <img src="assets/kinematic-metal-healing/press-news-daily.png" style="left:218px;top:0;transform:rotate(2deg)" alt="Daily Beast: Scientists say Terminator-style self-healing metal is real">
+      <img src="assets/kinematic-metal-healing/press-news-fast.png" style="left:462px;top:10px;transform:rotate(-1.5deg)" alt="Fast Company: Scientists discovered metal can heal itself, and it is as sci-fi as it sounds">
     </div>
-    <div class="pl"><div class="t">The platinum result made headlines</div>
-      <div class="src">Press: <a href="https://www.scientificamerican.com/article/some-metals-mysteriously-heal-their-own-cracks/" target="_blank" rel="noopener">Scientific American, 1 Oct 2023</a>; <a href="https://thedailybeast.com/scientists-say-terminator-style-self-healing-metal-is-real" target="_blank" rel="noopener">Daily Beast, 20 Jul 2023</a>; Fast Company, Elissaveta M. Brandon, 2023</div></div>
+    <div class="src">Press on the platinum result: <a href="https://www.scientificamerican.com/article/some-metals-mysteriously-heal-their-own-cracks/" target="_blank" rel="noopener">Scientific American, 1 Oct 2023</a>; <a href="https://thedailybeast.com/scientists-say-terminator-style-self-healing-metal-is-real" target="_blank" rel="noopener">Daily Beast, 20 Jul 2023</a>; Fast Company, Elissaveta M. Brandon, 2023</div>
   </div>
   <div class="it" style="font-size:30px">Our goal is not a self-healing part. It is the science that makes recurrent healing designable.</div>
-  <div class="team1"><b>Brad L. Boyce</b> (lead PI, JHU) &middot; Somnath Ghosh, Jamie Guest (JHU) &middot; Suresh Babu (UMD) &middot; Ophelia Bolmin (CMU) &middot; Carlos Portela (MIT)</div>
 </div>
 <div class="partners"><img class="umd" src="assets/kinematic-metal-healing/logos-umd-white.png" alt="University of Maryland"><img class="cmu" src="assets/kinematic-metal-healing/logos-cmu-white.png" alt="Carnegie Mellon University"><img class="mit" src="assets/kinematic-metal-healing/logos-mit-white.png" alt="Massachusetts Institute of Technology"></div>
 <div class="abs" style="left:830px;top:56px;width:700px">
-  <div class="plt"><img src="assets/kinematic-metal-healing/img-baker-fig3h-1400.jpg" alt="Change in gold crack length per 2,000 cycles over 1.5 million cycles: hundreds of growth steps above zero and hundreds of healing steps below it"></div>
-  <div class="cap"><b>In situ TEM, gold with 249 nm grains, 1.5 million cycles.</b> Each dot is the change in crack length over 2,000 cycles. Of 679 steps, 197 grew and 148 healed by more than 5 nm. Baker et al., in review at Nature Communications, Fig. 3h</div>
-  <div style="display:grid;grid-template-columns:270px 1fr;gap:20px;margin-top:12px;align-items:start">
-    <div><div class="plt" style="padding:5px"><img src="assets/kinematic-metal-healing/img-barr-heal-strip-900.jpg" alt="Three TEM frames: crack faces touch, then the deflected crack heals"></div>
-      <div class="cap"><b>Where it started: platinum.</b> Crack faces touch (n = 644,000 cycles), then the deflected crack heals (n = 664,100). Scale bars 50 nm. Figure: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>, Fig. 2d to f</div></div>
-    <div><div class="k2" style="font-size:17px;margin-bottom:4px">The gap: no laws yet for recurrent healing</div>
-      <div class="gap3 tight">
-        <div class="gc"><div class="t">Biological</div><div class="d">Living tissue heals again and again, using cells and a supply of material. Bio-inspired capsules copy the supply, but heal a site only once.<div class="src">Source: <a href="https://doi.org/10.1038/nmat1934" target="_blank" rel="noopener">Toohey et al., Nat. Mater. 6, 581 (2007)</a></div></div></div>
-        <div class="gc hot"><div class="t">Metallurgical</div><div class="d">Cracks in metal cold-weld shut at the nanoscale, in gold nearly as often as they grow, but never yet by design.</div></div>
-        <div class="gc"><div class="t">Architectural</div><div class="d">Lattices recover their shape, but not their damaged material.</div></div>
-      </div></div>
+  <div style="display:grid;grid-template-columns:430px 1fr;gap:18px;align-items:center">
+    <div class="plt" style="padding:5px"><img src="assets/kinematic-metal-healing/img-barr-heal-strip-1200.jpg" alt="Three TEM frames of platinum: crack faces touch, then the deflected crack heals"></div>
+    <div class="cap" style="font-size:15px;margin:0"><b>Platinum, in situ TEM.</b> The crack faces touch, then the crack heals. Scale bars 50 nm.<div class="src" style="margin-top:4px">Figure: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>, Fig. 2d to f</div></div>
+  </div>
+  <div class="plt" style="margin-top:12px"><img src="assets/kinematic-metal-healing/img-baker-fig3h-1400.jpg" alt="Change in gold crack length per 2,000 cycles over 1.5 million cycles: hundreds of growth steps above zero and hundreds of healing steps below it"></div>
+  <div class="cap"><i class="peer">New results in peer review.</i> Gold with 249 nm grains, in situ TEM over 1.5 million cycles. Each dot is the change in crack length over 2,000 cycles: of 679 steps, 197 grew and 148 healed by more than 5 nm. Baker et al., in review at Nature Communications, Fig. 3h</div>
+  <div class="k2" style="font-size:17px;margin:12px 0 4px">The gap: no laws yet for recurrent healing</div>
+  <div class="gap3 gaprow">
+    <div class="gc"><div class="t">Biological</div><div class="d">Living tissue heals again and again. Bio-inspired capsules heal a site only once.<div class="src">Source: <a href="https://doi.org/10.1038/nmat1934" target="_blank" rel="noopener">Toohey et al., Nat. Mater. 6, 581 (2007)</a></div></div></div>
+    <div class="gc hot"><div class="t">Metallurgical</div><div class="d">Cracks cold-weld shut at the nanoscale, but never yet by design.</div></div>
+    <div class="gc"><div class="t">Architectural</div><div class="d">Lattices recover their shape, but not their damaged material.</div></div>
   </div>
 </div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">1 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
 <section class="slide s2"><div class="bg" role="img" aria-label="A paper wasp in flight above its nest" style="background-image:url('assets/kinematic-metal-healing/commons-wasps-on-nest-2000.jpg');background-position:0% 46%;background-size:128% auto"></div><div class="scr"></div>
-<div class="abs" style="left:80px;top:50px;width:650px;display:flex;flex-direction:column;gap:13px">
+<div class="abs" style="left:80px;top:50px;width:720px;display:flex;flex-direction:column;gap:12px">
   <div class="k2">Lead with nature &middot; Topic 16 asks for it</div>
   <div class="hh">Nature heals by <span class="acc">designing interfaces</span></div>
   <div class="ld">The paper wasp builds its nest additively from plant fiber. Its wings <b>hook together for flight and release at rest</b>, every flight.</div>
@@ -973,9 +989,9 @@ body.all .hud2{display:none}
     <div><div class="n">2,900<small>&times;</small></div><div class="l">simulated hook capacity, 2.45 N, against a 0.85 mN body weight</div></div>
   </div>
   <div class="trio">
-    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/commons-bur-700.jpg')"></div><div class="tt">Hooks</div><div class="tx">Hooks catch and release. The model for Velcro.</div><div class="src">Photo: <a href="https://commons.wikimedia.org/wiki/File:Bur_Macro_BlackBg.jpg" target="_blank" rel="noopener">Zephyris, CC BY-SA 3.0, Wikimedia Commons</a></div></figure>
-    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/commons-peacock-feather-700.jpg');background-position:50% 60%"></div><div class="tt">Barbules</div><div class="tx">Barbules unzip without tearing; preening zips them back.</div><div class="src">Photo: <a href="https://commons.wikimedia.org/wiki/File:%D0%9F%D0%B5%D1%80%D0%BE_%D0%BF%D0%B0%D0%B2%D0%BB%D0%B8%D0%BD%D0%B0_%D0%BF%D0%BE%D0%B4_%D0%BC%D0%B8%D0%BA%D1%80%D0%BE%D1%81%D0%BA%D0%BE%D0%BF%D0%BE%D0%BC.jpg" target="_blank" rel="noopener">Gribkov, CC BY 4.0, Wikimedia Commons</a> &middot; Unzipping: <a href="https://doi.org/10.1098/rsif.2013.0988" target="_blank" rel="noopener">Kovalev et al., J. R. Soc. Interface 11, 20130988 (2014)</a></div></figure>
-    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-osteon-crack-sq-700.jpg');background-color:#fff"></div><div class="tt">Remodeling</div><div class="tx">Bone finds microcracks and rebuilds around them.</div><div class="src">Illustration: <a href="https://commons.wikimedia.org/wiki/File:Bone_units_with_cracks_-_Osteons_Osteons_with_microcracks_--_Smart-Servier.jpg" target="_blank" rel="noopener">Laboratoires Servier, CC BY-SA 3.0, Wikimedia Commons</a> &middot; Repair: <a href="https://doi.org/10.1038/nmat1866" target="_blank" rel="noopener">Taylor et al., Nat. Mater. 6, 263 (2007)</a></div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/commons-bur-700.jpg')"></div><div class="tt">Hooks</div><div class="sp"><b>Epizoochory</b> &middot; burdock, <i>Arctium</i></div><div class="tx">Hooks catch and release. The model for Velcro.</div><div class="src">Photo: <a href="https://commons.wikimedia.org/wiki/File:Bur_Macro_BlackBg.jpg" target="_blank" rel="noopener">Zephyris, CC BY-SA 3.0, Wikimedia Commons</a></div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/commons-peacock-feather-700.jpg');background-position:50% 60%"></div><div class="tt">Barbules</div><div class="sp"><b>Barbule hooklets</b> &middot; waterfowl</div><div class="tx">Barbules unzip without tearing; preening zips them back.</div><div class="src">Photo: <a href="https://commons.wikimedia.org/wiki/File:%D0%9F%D0%B5%D1%80%D0%BE_%D0%BF%D0%B0%D0%B2%D0%BB%D0%B8%D0%BD%D0%B0_%D0%BF%D0%BE%D0%B4_%D0%BC%D0%B8%D0%BA%D1%80%D0%BE%D1%81%D0%BA%D0%BE%D0%BF%D0%BE%D0%BC.jpg" target="_blank" rel="noopener">Gribkov, CC BY 4.0, Wikimedia Commons</a> &middot; Unzipping: <a href="https://doi.org/10.1098/rsif.2013.0988" target="_blank" rel="noopener">Kovalev et al., J. R. Soc. Interface 11, 20130988 (2014)</a></div></figure>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-osteon-crack-sq-700.jpg');background-color:#fff"></div><div class="tt">Remodeling</div><div class="sp"><b>Targeted remodeling</b> &middot; human bone</div><div class="tx">Bone finds microcracks and rebuilds around them.</div><div class="src">Illustration: <a href="https://commons.wikimedia.org/wiki/File:Bone_units_with_cracks_-_Osteons_Osteons_with_microcracks_--_Smart-Servier.jpg" target="_blank" rel="noopener">Laboratoires Servier, CC BY-SA 3.0, Wikimedia Commons</a> &middot; Repair: <a href="https://doi.org/10.1038/nmat1866" target="_blank" rel="noopener">Taylor et al., Nat. Mater. 6, 263 (2007)</a></div></figure>
   </div>
   <div class="it" style="font-size:24px">Nature heals by architecting interfaces. Can we architect metals the same way?</div>
 </div>
@@ -1027,7 +1043,7 @@ body.all .hud2{display:none}
 <div class="abs" style="left:80px;top:196px;width:690px;display:flex;flex-direction:column;gap:14px">
   <div class="k2" style="font-size:19px;color:#fff">In biology</div>
   <div class="bio3">
-    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-slit-sem-700.jpg')"></div><div class="tt">Spider slit organs</div>
+    <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-slit-sem-700.jpg');background-position:30% 100%"></div><div class="tt">Spider slit organs</div>
       <div class="tx">Slits in the exoskeleton work as strain gauges: nature uses cracks as sensors.</div>
       <div class="src">SEM, <i>Cupiennius salei</i>, 50 &micro;m scale bar. Figure: <a href="https://doi.org/10.1038/nature08603" target="_blank" rel="noopener">Fratzl and Barth, Nature 462, 442 (2009)</a>, Fig. 1c</div></figure>
     <figure><div class="im" style="background-image:url('assets/kinematic-metal-healing/img-campaniform-top-800.jpg')"></div><div class="tt">Campaniform sensilla</div>
@@ -1043,18 +1059,12 @@ body.all .hud2{display:none}
   <div class="k2" style="font-size:19px;color:#fff">In architected metal</div>
   <div><div class="plt" style="padding:5px"><img src="assets/kinematic-metal-healing/img-white-touch-1100.jpg" alt="A printed metal interpenetrating lattice reading resistance as objects touch it"></div>
     <div class="cap"><b>The lattice is the sensor.</b> Two printed metal sub-lattices, interwoven but not touching, read what touches them: over 10 M&Omega; with nothing, over 800 k&Omega; under a fingertip, 36 &Omega; for a screw, 7 &Omega; for a metal cylinder. Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 10a</div></div>
-  <div style="display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:start">
-    <div class="plt" style="padding:4px"><img src="assets/kinematic-metal-healing/img-white-res-500.jpg" alt="Simulated resistance against displacement between sub-lattices"></div>
-    <div class="st3" style="gap:22px">
-      <div><div class="n">10<small>orders</small></div><div class="l" style="max-width:none">fall in resistance as one sub-lattice slides into contact with the other, simulated (left)<span class="src">Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 4</span></div></div>
-      <div><div class="n">85&rarr;148<small>pF</small></div><div class="l" style="max-width:none">capacitance across the gap as humidity rises from about 5% to 95%, read from the plot<span class="src">Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 9a</span></div></div>
-    </div>
+  <div style="display:grid;grid-template-columns:430px 1fr;gap:26px;align-items:center">
+    <div class="plt" style="padding:5px"><img src="assets/kinematic-metal-healing/img-white-res-tight-967.jpg" alt="Simulated resistance against displacement between sub-lattices"></div>
+    <div class="st3"><div><div class="n">10<small>orders</small></div><div class="l" style="max-width:none">fall in resistance as one sub-lattice slides into contact with the other, simulated (left)<span class="src">Figure: <a href="https://doi.org/10.1007/s10853-024-10097-6" target="_blank" rel="noopener">White et al., J. Mater. Sci. 59, 15469 (2024)</a>, Fig. 4</span></div></div></div>
   </div>
 </div>
-<div class="abs" style="left:80px;right:70px;top:742px">
-  <div class="snb"><div class="bt">In this program</div>
-    <div class="chips"><span><b>Latches switch:</b> resistance steps read each cell's state</span><span><b>Cells click:</b> each acoustic signal locates its event</span><span><b>Memory cells count:</b> the remaining healing budget</span><span><b>H7:</b> internal state read from boundary signals</span></div></div>
-</div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">4 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
+<div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">4 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
 <section class="slide s4"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
   <div class="k2">Hypothesis &middot; why it will succeed, and how it could fail</div>
   <div class="hh">Recurrent healing is set by <span class="acc">geometry, not chemistry</span></div>
@@ -1080,31 +1090,35 @@ body.all .hud2{display:none}
  <text x="403.0" y="190" font-size="15" fill="#fff">every mechanism should</text><text x="403.0" y="210" font-size="15" fill="#fff">fall on these same</text><text x="403.0" y="230" font-size="15" fill="#fff">two lines (H3)</text>
 </svg></div>
 <div class="abs" style="left:840px;top:218px;width:690px;display:flex;flex-direction:column;gap:14px">
-  <div style="width:560px"><svg class="sch" viewBox="0 0 560 300" aria-label="Healing budget schematic">
- <path d="M60,2 V250 H540" stroke="#A9B9D0" stroke-width="2" fill="none"/>
- <path d="M60,40 H540" stroke="rgba(255,255,255,.35)" stroke-width="1.5" stroke-dasharray="2 5"/>
- <path d="M60,40 C150,22 300,12 540,9" stroke="#C98BBF" stroke-width="4.5" fill="none"/>
- <text x="545" y="13" font-size="14" fill="#C98BBF">self-enhancing (S1)</text>
- <text x="330" y="34" text-anchor="middle" font-size="13" font-style="italic" fill="#C98BBF">ideal bio-inspired response</text>
- <path d="M60,150 H540" stroke="#CF4520" stroke-width="2" stroke-dasharray="8 6"/>
- <text x="536" y="144" text-anchor="end" font-size="14" class="red">replace the module</text>
- <path d="M60,40 C200,44 380,52 540,66" stroke="#F1C400" stroke-width="4" fill="none"/>
- <path d="M60,40 C180,52 330,80 540,120" stroke="#68ACE5" stroke-width="4" fill="none"/>
- <path d="M60,40 C130,80 200,150 300,190 C380,215 460,226 540,232" stroke="#fff" stroke-width="3" stroke-dasharray="3 0" fill="none" opacity=".75"/>
- <text x="545" y="62" font-size="14" class="gold">with cold welding (H6)</text>
- <text x="545" y="118" font-size="14" class="acc">inside the regime</text>
- <text x="545" y="236" font-size="14" fill="#fff">no longer fit-for-service</text>
- <circle cx="232" cy="150" r="7" fill="#fff"/><path d="M232,150 V250" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 4"/>
- <text x="232" y="270" text-anchor="middle" font-size="14" fill="#fff">healing budget (H4)</text>
- <text x="300" y="294" text-anchor="middle" font-size="15" fill="#C9D6E8">number of insults &rarr;</text>
- <text transform="translate(26,135) rotate(-90)" text-anchor="middle" font-size="14" fill="#C9D6E8">recovered stiffness and strength</text>
- <text x="70" y="244" font-size="12" class="dim">Schematic, not data</text>
+  <div><svg class="sch" viewBox="0 0 760 330" aria-label="Healing budget schematic">
+ <g transform="translate(10,0) scale(0.83,1)" fill="none">
+  <path d="M60,2 V250 H540" stroke="#A9B9D0" stroke-width="2" vector-effect="non-scaling-stroke"/>
+  <path d="M60,40 H540" stroke="rgba(255,255,255,.35)" stroke-width="1.5" stroke-dasharray="2 5" vector-effect="non-scaling-stroke"/>
+  <path d="M60,40 C150,22 300,12 540,9" stroke="#C98BBF" stroke-width="4.5" vector-effect="non-scaling-stroke"/>
+  <path d="M60,150 H540" stroke="#CF4520" stroke-width="2" stroke-dasharray="8 6" vector-effect="non-scaling-stroke"/>
+  <path d="M60,40 C200,44 380,52 540,66" stroke="#F1C400" stroke-width="4" vector-effect="non-scaling-stroke"/>
+  <path d="M60,40 C180,52 330,80 540,120" stroke="#68ACE5" stroke-width="4" vector-effect="non-scaling-stroke"/>
+  <path d="M60,40 C130,80 200,150 300,190 C380,215 460,226 540,232" stroke="#fff" stroke-width="3" opacity=".75" vector-effect="non-scaling-stroke"/>
+  <path d="M232,150 V250" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>
+ </g>
+ <circle cx="202.6" cy="150" r="7" fill="#fff"/>
+ <text x="466" y="17" font-size="21" fill="#C98BBF">self-enhancing (S1)</text>
+ <text x="286" y="33" text-anchor="middle" font-size="17" font-style="italic" fill="#C98BBF">ideal bio-inspired response</text>
+ <text x="466" y="73" font-size="21" class="gold">with cold welding (H6)</text>
+ <text x="466" y="127" font-size="21" class="acc">inside the regime</text>
+ <text x="455" y="142" text-anchor="end" font-size="19" class="red">replace the module</text>
+ <text x="466" y="240" font-size="21" fill="#fff">no longer fit-for-service</text>
+ <text x="203" y="278" text-anchor="middle" font-size="19" fill="#fff">healing budget (H4)</text>
+ <text x="260" y="316" text-anchor="middle" font-size="20" fill="#C9D6E8">number of insults &rarr;</text>
+ <text transform="translate(24,128) rotate(-90)" text-anchor="middle" font-size="17" fill="#C9D6E8">recovered stiffness, strength</text>
+ <text x="70" y="244" font-size="15" class="dim">Schematic, not data</text>
 </svg></div>
-  <div class="rk">
-    <div class="rkr"><div class="q"><b>Healing or just recovery?</b>Does the architecture restore damaged material, not only its shape?</div><div class="h">H6<small>cold welding raises the budget</small></div></div>
-    <div class="rkr"><div class="q"><b>Surface chemistry</b>Can metal faces rebond through oxide, in air and then in seawater?</div><div class="h">H5<small>one resealing map, both scales</small></div></div>
-    <div class="rkr"><div class="q"><b>Healing exhaustion</b>How many insults before healing runs out, and can we predict it?</div><div class="h">H4, H12<small>predicted before testing</small></div></div>
-  </div>
+  <div class="cq"><div class="k2" style="font-size:19px;color:#fff">Three core scientific questions</div>
+    <ol>
+      <li><b>Healing or just recovery?</b> Does the architecture restore damaged material, not only its shape?</li>
+      <li><b>Surface chemistry.</b> Can metal faces rebond through oxide, in air and then in seawater?</li>
+      <li><b>Healing exhaustion.</b> How many insults before healing runs out, and can we predict it?</li>
+    </ol></div>
   <div class="src" style="font-size:14px">Stretch goal (S1): get stronger after insult, as bone does under load. H numbers refer to the benchmark table in the concept paper.</div>
 </div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">5 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
 <section class="slide s5"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
@@ -1122,7 +1136,7 @@ body.all .hud2{display:none}
  <text x="320" y="270" text-anchor="middle" class="lab gold" font-size="26">The healing</text>
  <text x="320" y="298" text-anchor="middle" class="lab gold" font-size="26">joint</text>
  <text x="320" y="324" text-anchor="middle" font-size="14" fill="#fff">one model system</text>
- <g transform="translate(195,30)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">1</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Conceive</text><text x="14" y="60" font-size="15" class="gold">Boyce, Bolmin</text><text x="14" y="82" font-size="14" class="dim">cells, latches, cold-weld paths</text></g><g transform="translate(390,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">2</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Analyze</text><text x="14" y="60" font-size="15" class="gold">Ghosh, with Bolmin</text><text x="14" y="82" font-size="14" class="dim">wear, fatigue, latch dynamics</text></g><g transform="translate(195,444)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">3</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Optimize</text><text x="14" y="60" font-size="15" class="gold">Guest</text><text x="14" y="82" font-size="14" class="dim">margin in both ratios</text></g><g transform="translate(0,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">4</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Build, measure</text><text x="14" y="60" font-size="15" class="gold">Babu, Portela</text><text x="14" y="82" font-size="14" class="dim">specimens, slow loading to shock</text></g>
+ <g transform="translate(195,30)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">1</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Conceptualize</text><text x="14" y="60" font-size="15" class="gold">Boyce, Bolmin</text><text x="14" y="82" font-size="14" class="dim">cells, latches, cold-weld paths</text></g><g transform="translate(390,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">2</text><text x="46" y="34" class="lab" font-size="21" fill="#fff">Design and analyze</text><text x="14" y="60" font-size="15" class="gold">Ghosh, with Bolmin</text><text x="14" y="82" font-size="14" class="dim">wear, fatigue, latch dynamics</text></g><g transform="translate(195,444)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">3</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Optimize</text><text x="14" y="60" font-size="15" class="gold">Guest</text><text x="14" y="82" font-size="14" class="dim">margin in both ratios</text></g><g transform="translate(0,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">4</text><text x="46" y="34" class="lab" font-size="21" fill="#fff">Build &amp; test</text><text x="14" y="60" font-size="15" class="gold">Babu, Portela</text><text x="14" y="82" font-size="14" class="dim">specimens, slow loading to shock</text></g>
 </svg></div>
 <div class="abs" style="left:760px;top:222px;width:770px;display:flex;flex-direction:column;gap:2px">
   <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-kai-render-900.jpg')"></div><div><div class="tn"><span>Tier 1</span>Polymer microlattices</div><div class="td">Two-photon prints, hundreds per chip: reset, relatching, capture range. Read out with laser-induced vibrations. <i>Year 1 milestone.</i></div><div class="src">Figure: <a href="https://doi.org/10.1038/s41586-023-06652-x" target="_blank" rel="noopener">Kai et al., Nature 623, 514 (2023)</a>, Fig. 1a</div></div></div>
