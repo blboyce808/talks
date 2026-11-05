@@ -945,6 +945,19 @@ body.all .hud2{display:none}
 .cq li::before{content:counter(q);font-family:var(--display);font-weight:800;font-size:28px;line-height:1;color:var(--amber);grid-row:span 2}
 .cq li b{color:#fff}
 
+/* slide 6: three tiers of outcome, attainable to ideal */
+.otiers{position:relative;display:flex;flex-direction:column;gap:12px;padding-left:44px}
+.otiers .ladder{position:absolute;left:0;top:0;bottom:0;width:10px;border-radius:5px;background:linear-gradient(#68ACE5,#F1C400 55%,#C98BBF)}
+.otiers .ladder i{font-style:normal;border:0;background:none;padding:0;position:absolute;left:-2px;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;writing-mode:vertical-rl;transform:rotate(180deg);left:14px}
+.otiers .ladder .lad1{top:0;color:#68ACE5}.otiers .ladder .lad2{bottom:0;color:#C98BBF}
+.ot{display:grid;grid-template-columns:62px 1fr;gap:16px;align-items:center;border-radius:5px;padding:16px 18px;background:rgba(104,172,229,.08);border:1px solid rgba(104,172,229,.35)}
+.ot .on{font-family:var(--display);font-weight:800;font-size:56px;line-height:.9;text-align:center}
+.ot .oh{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.05em;text-transform:uppercase;color:#fff;line-height:1.1}
+.ot .od{font-size:18px;line-height:1.35;color:var(--ink);margin-top:4px}
+.ot.t1 .on{color:#68ACE5}
+.ot.t2{background:rgba(241,196,0,.08);border-color:rgba(241,196,0,.4)}.ot.t2 .on{color:#F1C400}
+.ot.t3{background:rgba(201,139,191,.12);border-color:rgba(201,139,191,.55)}.ot.t3 .on{color:#C98BBF}
+
 </style>
 </head>
 <body>
@@ -1122,7 +1135,7 @@ body.all .hud2{display:none}
   <div class="src" style="font-size:14px">Stretch goal (S1): get stronger after insult, as bone does under load. H numbers refer to the benchmark table in the concept paper.</div>
 </div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">5 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
 <section class="slide s5"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
-  <div class="k2">Approach &middot; four thrusts, three specimen scales, sensing built in</div>
+  <div class="k2">Approach &middot; four thrusts, three specimen scales, three tiers of outcome</div>
   <div class="hh">One model system, <span class="acc">tested from polymer pilots to printed metal</span></div>
 </div>
 <div class="abs" style="left:70px;top:226px;width:640px"><svg class="sch" viewBox="0 0 640 560" aria-label="Four thrusts around one model system">
@@ -1138,12 +1151,16 @@ body.all .hud2{display:none}
  <text x="320" y="324" text-anchor="middle" font-size="14" fill="#fff">one model system</text>
  <g transform="translate(195,30)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">1</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Conceptualize</text><text x="14" y="60" font-size="15" class="gold">Boyce, Bolmin</text><text x="14" y="82" font-size="14" class="dim">cells, latches, cold-weld paths</text></g><g transform="translate(390,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">2</text><text x="46" y="34" class="lab" font-size="21" fill="#fff">Design and analyze</text><text x="14" y="60" font-size="15" class="gold">Ghosh, with Bolmin</text><text x="14" y="82" font-size="14" class="dim">wear, fatigue, latch dynamics</text></g><g transform="translate(195,444)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">3</text><text x="46" y="34" class="lab" font-size="24" fill="#fff">Optimize</text><text x="14" y="60" font-size="15" class="gold">Guest</text><text x="14" y="82" font-size="14" class="dim">margin in both ratios</text></g><g transform="translate(0,237)"><rect x="0" y="0" width="250" height="96" rx="8" fill="#0B2652" stroke="#68ACE5" stroke-width="2"/><text x="14" y="34" class="lab acc" font-size="30">4</text><text x="46" y="34" class="lab" font-size="21" fill="#fff">Build &amp; test</text><text x="14" y="60" font-size="15" class="gold">Babu, Portela</text><text x="14" y="82" font-size="14" class="dim">specimens, slow loading to shock</text></g>
 </svg></div>
-<div class="abs" style="left:760px;top:222px;width:770px;display:flex;flex-direction:column;gap:2px">
-  <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-kai-render-900.jpg')"></div><div><div class="tn"><span>Tier 1</span>Polymer microlattices</div><div class="td">Two-photon prints, hundreds per chip: reset, relatching, capture range. Read out with laser-induced vibrations. <i>Year 1 milestone.</i></div><div class="src">Figure: <a href="https://doi.org/10.1038/s41586-023-06652-x" target="_blank" rel="noopener">Kai et al., Nature 623, 514 (2023)</a>, Fig. 1a</div></div></div>
-  <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-barr-notch-900.jpg')"></div><div><div class="tn"><span>Tier 2</span>Metal microlattices</div><div class="td">Small-scale metal, where size effects and cold welding are strongest. <i>Opportunistic: no core benchmark depends on it.</i></div><div class="src">Nanoscale metal fatigue specimen: Figure: <a href="https://doi.org/10.1038/s41586-023-06223-0" target="_blank" rel="noopener">Barr et al., Nature 620, 552 (2023)</a>, Fig. 1a</div></div></div>
-  <div class="tier"><div class="ti" style="background-image:url('assets/kinematic-metal-healing/img-bolmin-truss-800.jpg')"></div><div><div class="tn"><span>Tier 3</span>Printed metal joints</div><div class="td">Millimeter-scale metal additive manufacturing: both ratios, cold welding and the healing budget, in air then seawater.</div><div class="src">Concept render of interlocking truss joints: Figure: <a href="https://doi.org/10.1088/1748-3190/adadbb" target="_blank" rel="noopener">Bolmin, Noell and Boyce, Bioinspir. Biomim. 20, 026022 (2025), CC BY 4.0</a>, Fig. 6</div></div></div>
-  <div class="chips" style="margin-top:12px"><span><b>Sensing in every tier:</b> resistance, acoustic clicks and memory cells, read against H7 (slide 4)</span></div>
-  <div class="src" style="font-size:14px;margin-top:6px">Every prediction has a pass/fail benchmark. Example, H1: at least 95% of undamaged stiffness and strength after 1,000 insults (proposed threshold, concept paper benchmark table).</div>
+<div class="abs" style="left:760px;top:226px;width:770px;display:flex;flex-direction:column;gap:12px">
+  <div class="k2" style="font-size:19px;color:#fff">Three tiers of outcome</div>
+  <div class="otiers">
+    <div class="ladder"><i class="lad1">Attainable</i><i class="lad2">Ideal outcome</i></div>
+    <div class="ot t1"><div class="on">1</div><div><div class="oh">Sense, then repair on command</div><div class="od">Metal structures that sense and communicate their damage state, and heal when given an external stimulus.</div></div></div>
+    <div class="ot t2"><div class="on">2</div><div><div class="oh">Heal on their own</div><div class="od">Energy stored in the architecture drives the reset and the rebond, with no outside help.</div></div></div>
+    <div class="ot t3"><div class="on">3</div><div><div class="oh">Go beyond healing: self-enhance</div><div class="od">Each repair leaves the structure more resistant to the next attack, as bone does under load (S1).</div></div></div>
+  </div>
+  <div class="chips" style="margin-top:4px"><span><b>Tested at three scales:</b> polymer two-photon microlattices (Year 1), metal microlattices (opportunistic), millimeter-scale printed metal joints</span></div>
+  <div class="src" style="font-size:14px">Every prediction has a pass/fail benchmark. Example, H1: at least 95% of undamaged stiffness and strength after 1,000 insults (proposed threshold, concept paper benchmark table).</div>
 </div><div class="pvt">PRIVATE: pre-submission proposal concept</div><div class="pgn">6 / 8</div><img class="eplogo" src="assets/kinematic-metal-healing/jhu-wse-logo-white-hd.png" alt="Johns Hopkins Whiting School of Engineering"></section>
 <section class="slide s6"><div class="abs" style="left:80px;top:58px;right:80px;display:flex;flex-direction:column;gap:12px">
   <div class="k2">Team, milestones and cost</div>
@@ -1167,7 +1184,7 @@ body.all .hud2{display:none}
   <div class="pay">
     <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 9h6v-3h6v3h6v6h-6v3h-6v-3h-6z" fill="none" stroke="#68ACE5" stroke-width="2"/></svg></div><div class="t"><b>Joints that heal, release and rejoin,</b> for modular payloads, field repair and parts too large to print in one piece</div></div>
     <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M2 14c3 0 3-3 6-3s3 3 6 3 3-3 6-3M2 19c3 0 3-3 6-3s3 3 6 3 3-3 6-3" fill="none" stroke="#68ACE5" stroke-width="2"/></svg></div><div class="t"><b>Shock, slamming and fatigue</b> absorbed and recovered from, without a shipyard</div></div>
-    <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0" fill="none" stroke="#68ACE5" stroke-width="2"/><path d="M12 17l4-6" stroke="#F1C400" stroke-width="2.5"/></svg></div><div class="t"><b>Parts that report their own damage</b> and how many more times they can heal, so they are replaced when worn, not on a fixed schedule</div></div>
+    <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0" fill="none" stroke="#68ACE5" stroke-width="2"/><path d="M12 17l4-6" stroke="#F1C400" stroke-width="2.5"/></svg></div><div class="t"><b>Parts that can sense and communicate their damage state</b> and how many more times they can heal, so they are replaced when worn, not on a fixed schedule</div></div>
     <div class="pr"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" fill="none" stroke="#68ACE5" stroke-width="2"/></svg></div><div class="t"><b>Transition partners:</b> NSWC Carderock and NRL</div></div>
   </div>
 </div>
